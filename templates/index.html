@@ -1,0 +1,20 @@
+<html lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumBombOnline</title>
+</head>
+
+<body style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);">
+    <h1>NumBombOnline</h1>
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'logout' %}" style="font-size: 300px">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}" style="font-size: 300px">Login</a>
+    <a href="{% url 'register' %}" style="font-size: 300px">Register</a>
+    {% endif %}
+</body>
+
+</html>

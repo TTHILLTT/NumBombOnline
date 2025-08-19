@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <script>
+        function submitForm() {
+            if (document.getElementById("password").value!= document.getElementById("password_again").value) {
+                alert("两次输入的密码不一致，请重新输入！");
+                return false;
+            }
+            document.getElementById("register-form").submit();
+        }
+    </script>
+</head>
+<body>
+<body style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); background-size: contain; background-repeat: no-repeat; background-attachment: fixed;">
+    <div style=" text-align: center;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <form id="register-form" style="text-align: center;" method="post">
+            {% csrf_token %}
+            <p style="font-size: large; background: rgba(255,255,255,0.5);">注册到NumBombOnline</p>
+            <table>
+                <tr>
+                    <td>账号登录名:</td>
+                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="username"></td>
+                </tr>
+                <tr>
+                    <td>邮箱:</td>
+                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="email"></td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <td>请再次输入密码:</td>
+                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password_again" id="password_again"></td>
+                </tr>
+            </table>
+        </form>
+        <p><button style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" onclick="submitForm()">注册</button></p>
+    </div>
+</body>
+</html>
