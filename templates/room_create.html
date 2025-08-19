@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'Create a Room' %}</title>
+    {% include 'style.html' %}
+
+<body>
+    <h1>{% translate 'Create a Room' %}</h1>
+    <form method="post" action="{% url 'room_create' %}">
+        {% csrf_token %}
+        <table style="text-align: left;">
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="{% translate 'Submit' %}">
+    </form>
+</body>
+
+</html>

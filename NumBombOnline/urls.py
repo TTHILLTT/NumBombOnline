@@ -26,5 +26,7 @@ urlpatterns = [
     path('logout/', account.views.user_logout, name='logout'),
     path('register/', account.views.register, name='register'),
     path('profile/', account.views.profile, name='profile'),
-    path('profile/<str:username>/', account.views.profile, name='profile_username')
+    path('profile/<str:username>/', account.views.profile, name='profile_username'),
+    path('room/create/', game.views.room_create, name='room_create'),
+    path('room/<int:room_id>/', game.views.room_detail, name='room_detail'),
 ]

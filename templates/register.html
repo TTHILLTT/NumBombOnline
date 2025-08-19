@@ -1,12 +1,14 @@
-<html lang="en">
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>注册</title>
+    <title>{% translate 'Register' %}</title>
     <script>
         function submitForm() {
             if (document.getElementById("password").value!= document.getElementById("password_again").value) {
-                alert("两次输入的密码不一致，请重新输入！");
+                alert("{% translate 'Passwords do not match' %}");
                 return false;
             }
             document.getElementById("register-form").submit();
@@ -18,27 +20,27 @@
     <div class="middle" style="text-align: center;">
         <form id="register-form" method="post">
             {% csrf_token %}
-            <p style="font-size: large; background: rgba(255,255,255,0.5);">注册到NumBombOnline</p>
+            <p style="font-size: large; background: rgba(255,255,255,0.5);">{% translate 'Register To NumBombOnline' %}</p>
             <table>
                 <tr>
-                    <td>账号登录名:</td>
+                    <td>{% translate 'Username' context 'register' %}:</td>
                     <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="username"></td>
                 </tr>
                 <tr>
-                    <td>邮箱:</td>
+                    <td>{% translate 'Email' %}:</td>
                     <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="email"></td>
                 </tr>
                 <tr>
-                    <td>密码:</td>
+                    <td>{% translate 'Password' %}:</td>
                     <td><input type="password" style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" id="password"></td>
                 </tr>
                 <tr>
-                    <td>请再次输入密码:</td>
+                    <td>{% translate 'Confirm Password' %}:</td>
                     <td><input type="password" style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password_again" id="password_again"></td>
                 </tr>
             </table>
         </form>
-        <p><button style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" onclick="submitForm()">注册</button></p>
+        <p><button style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" onclick="submitForm()">{% translate 'Register' %}</button></p>
     </div>
 </body>
 </html>

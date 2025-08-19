@@ -1,19 +1,25 @@
-<html lang="zh-CN">
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>详情</title>
-    {% include 'style.html' %}
+    <title>{% translate "Profile" %}</title>
+    {% include "style.html" %}
 </head>
 
 <body>
     <div class="middle">
-        <h1>个人资料</h1>
-        <p>欢迎来到 {{ user.username }} 的个人资料页面！</p>
-        <p>电子邮箱地址：{{ user.email }}</p>
-        <h2>个人简介</h2>
+        <h1>{% translate "Profile" %}</h1>
+        <p>{% blocktranslate with username=user.username %}Welcome To {{ username }}'s Profile!{% endblocktranslate %}</p>
+        <p>{% translate "Email" %}: {{ user.email }}</p>
+        <h2>{% translate "Bio" %}</h2>
+        {% if user.bio == "" %}
+        <p>{% translate "This user has not written a bio yet." %}</p>
+        {% else %}
         <p>{{ user.bio }}</p>
+        {% endif %}
     </div>
 </body>
 

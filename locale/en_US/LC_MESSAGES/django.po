@@ -1,0 +1,203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-19 23:09+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\account\apps.py:7
+msgid "Account"
+msgstr ""
+
+#: .\game\apps.py:8
+msgid "Game"
+msgstr ""
+
+#: .\game\forms.py:7
+msgid "Room name"
+msgstr ""
+
+#: .\game\forms.py:7
+msgid "New room"
+msgstr ""
+
+#: .\game\forms.py:8
+msgid "Minimum number"
+msgstr ""
+
+#: .\game\forms.py:9
+msgid "Maximum number"
+msgstr ""
+
+#: .\game\forms.py:10
+msgid "Maximum players"
+msgstr ""
+
+#: .\game\forms.py:11
+msgid "Step time (seconds)"
+msgstr ""
+
+#: .\game\models.py:9
+msgid "room name"
+msgstr ""
+
+#: .\game\models.py:10
+msgid "owner"
+msgstr ""
+
+#: .\game\models.py:11
+msgid "minimum number"
+msgstr ""
+
+#: .\game\models.py:12
+msgid "maximum number"
+msgstr ""
+
+#: .\game\models.py:13
+msgid "maximum player number"
+msgstr ""
+
+#: .\game\models.py:14
+msgid "players"
+msgstr ""
+
+#: .\game\models.py:15
+msgid "hide room"
+msgstr ""
+
+#: .\game\models.py:16
+#, fuzzy
+#| msgid "Create a Room"
+msgid "created at"
+msgstr "Create a Room"
+
+#: .\game\models.py:17
+msgid "updated at"
+msgstr ""
+
+#: .\game\models.py:18
+msgid "room code"
+msgstr ""
+
+#: .\game\models.py:19
+msgid "step time limit"
+msgstr ""
+
+#: .\game\models.py:20
+msgid "current player"
+msgstr ""
+
+#: .\game\models.py:21
+msgid "player order"
+msgstr ""
+
+#: .\game\models.py:24
+msgid "room"
+msgstr ""
+
+#: .\game\models.py:25
+msgid "rooms"
+msgstr ""
+
+#: .\templates\index.html:3 .\templates\login.html:4 .\templates\profile.html:3
+#: .\templates\register.html:3 .\templates\room_create.html:3
+#: .\templates\room_detail.html:3
+msgid "lang"
+msgstr "en_US"
+
+#: .\templates\index.html:15
+msgid "Welcome"
+msgstr "Welcome"
+
+#: .\templates\index.html:16
+msgid "Room List"
+msgstr "Room List"
+
+#: .\templates\index.html:17 .\templates\room_create.html:8
+#: .\templates\room_create.html:12
+msgid "Create a Room"
+msgstr "Create a Room"
+
+#: .\templates\index.html:22
+msgid "No Rooms Available"
+msgstr "No Rooms Available"
+
+#: .\templates\login.html:8 .\templates\login.html:15 .\templates\login.html:18
+msgid "Login"
+msgstr "Login"
+
+#: .\templates\login.html:16
+msgid "Username"
+msgstr "Username"
+
+#: .\templates\login.html:17 .\templates\register.html:34
+msgid "Password"
+msgstr "Password"
+
+#: .\templates\profile.html:8 .\templates\profile.html:14
+msgid "Profile"
+msgstr "Profile"
+
+#: .\templates\profile.html:15
+#, fuzzy, python-format
+#| msgid "Welcome To  %(username)s's Profile!"
+msgid "Welcome To %(username)s's Profile!"
+msgstr "Welcome To  %(username)s's Profile!"
+
+#: .\templates\profile.html:16 .\templates\register.html:30
+msgid "Email"
+msgstr "Email"
+
+#: .\templates\profile.html:17
+msgid "Bio"
+msgstr "Bio"
+
+#: .\templates\profile.html:19
+msgid "This user has not written a bio yet."
+msgstr ""
+
+#: .\templates\register.html:7 .\templates\register.html:43
+msgid "Register"
+msgstr ""
+
+#: .\templates\register.html:11
+msgid "Passwords do not match"
+msgstr ""
+
+#: .\templates\register.html:23
+msgid "Register To NumBombOnline"
+msgstr ""
+
+#: .\templates\register.html:26
+#, fuzzy
+#| msgid "Username"
+msgctxt "register"
+msgid "Username"
+msgstr "Username"
+
+#: .\templates\register.html:38
+#, fuzzy
+#| msgid "Password"
+msgid "Confirm Password"
+msgstr "Password"
+
+#: .\templates\room_create.html:18
+msgid "Submit"
+msgstr ""
+
+#, fuzzy
+#~| msgid "Create a Room"
+#~ msgid "Create Room"
+#~ msgstr "Create a Room"

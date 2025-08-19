@@ -1,19 +1,21 @@
+{% load i18n %}
+
 <!DOCTYPE html>
-<html lang="zh-hans">
+<html lang="{% translate 'lang' %}">
 
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>{% translate 'Login' %}</title>
     {% include 'style.html' %}
 </head>
 <body>
     <div class="middle">
         <form style="text-align: center;" method="post">
             {% csrf_token %}
-            <p style="font-size: large; background: rgba(255,255,255,0.5);">登录到NumBombOnline</p>
-            <p><label>账号：<input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="username"></label></p>
-            <p><label>密码：<input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" type="password"></label></p>
-            <input style="width: 300px; height: 100px; background: rgba(255,255,255,0.5);" type="submit" value="登录" />
+            <p style="font-size: large; background: rgba(255,255,255,0.5);">{% translate 'Login' %}</p>
+            <p><label>{% translate 'Username' %}: <input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="username"></label></p>
+            <p><label>{% translate 'Password' %}: <input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" type="password"></label></p>
+            <input style="width: 300px; height: 100px; background: rgba(255,255,255,0.5);" type="submit" value="{% translate 'Login' %}" />
         </form>
     </div>
 </body>

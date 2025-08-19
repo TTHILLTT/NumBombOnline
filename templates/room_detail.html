@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ room.name }} - {% translate 'Room Detail' %}</title>
+    {% include 'style.html' %}
+</head>
+
+<body>
+    <h1>{{ room.name }} (#{{ room.id }})</h1>
+    <p>{{ room.owner.username }} ({{ room.owner.email }})</p>
+</body>
+
+</html>

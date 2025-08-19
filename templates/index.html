@@ -1,4 +1,6 @@
-<html lang="zh-hans">
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,8 +12,16 @@
 <body>
     <h1>NumBombOnline</h1>
     {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }}!</p>
-    <a href="{% url 'logout' %}" style="font-size: 300px">Logout</a>
+    <p>{% translate "Welcome" %}, {{ user.username }}! <a href="{% url 'profile' %}">Profile</a> <a href="{% url 'logout' %}">Logout</a></p>
+    <h2>{% translate "Room List" %}</h2>
+    <p><a href="{% url 'room_create' %}">{% translate "Create a Room" %}</a></p>
+    <ul>
+        {% for room in rooms %}
+        <li><a href="{% url 'room_detail' room.id %}">{{ room.name }}</a></li>
+        {% empty %}
+        <li>{% translate "No Rooms Available" %}</li>
+        {% endfor %}
+    </ul>
     {% else %}
     <a href="{% url 'login' %}" style="font-size: 300px">Login</a>
     <a href="{% url 'register' %}" style="font-size: 300px">Register</a>
