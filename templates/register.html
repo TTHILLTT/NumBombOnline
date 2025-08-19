@@ -12,11 +12,11 @@
             document.getElementById("register-form").submit();
         }
     </script>
+    {% include 'style.html' %}
 </head>
 <body>
-<body style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); background-size: contain; background-repeat: no-repeat; background-attachment: fixed;">
-    <div style=" text-align: center;position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <form id="register-form" style="text-align: center;" method="post">
+    <div class="middle" style="text-align: center;">
+        <form id="register-form" method="post">
             {% csrf_token %}
             <p style="font-size: large; background: rgba(255,255,255,0.5);">注册到NumBombOnline</p>
             <table>
@@ -30,11 +30,11 @@
                 </tr>
                 <tr>
                     <td>密码:</td>
-                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" id="password"></td>
+                    <td><input type="password" style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password" id="password"></td>
                 </tr>
                 <tr>
                     <td>请再次输入密码:</td>
-                    <td><input style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password_again" id="password_again"></td>
+                    <td><input type="password" style="width: 300px; height: 50px; background: rgba(255,255,255,0.5);" name="password_again" id="password_again"></td>
                 </tr>
             </table>
         </form>

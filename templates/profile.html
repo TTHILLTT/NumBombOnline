@@ -1,0 +1,20 @@
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>详情</title>
+    {% include 'style.html' %}
+</head>
+
+<body>
+    <div class="middle">
+        <h1>个人资料</h1>
+        <p>欢迎来到 {{ user.username }} 的个人资料页面！</p>
+        <p>电子邮箱地址：{{ user.email }}</p>
+        <h2>个人简介</h2>
+        <p>{{ user.bio }}</p>
+    </div>
+</body>
+
+</html>

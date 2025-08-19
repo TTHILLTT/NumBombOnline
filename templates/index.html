@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumBombOnline</title>
+    {% include 'style.html' %}
 </head>
 
-<body style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);">
+<body>
     <h1>NumBombOnline</h1>
     {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}!</p>
