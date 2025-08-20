@@ -386,25 +386,25 @@
                     return this._order;
                 },
 
-                _current_player: undefined,
-                set current_player(value) {
-                    this._current_player = value;
+                _currentPlayer: undefined,
+                set currentPlayer(value) {
+                    this._currentPlayer = value;
                     $("#current-player").text(value);
                 },
-                get current_player() {
-                    return this._current_player;
+                get currentPlayer() {
+                    return this._currentPlayer;
                 },
 
-                _ready_players: [],
-                set ready_players(value) {
-                    this._ready_players = value;
+                _readyPlayers: [],
+                set readyPlayers(value) {
+                    this._readyPlayers = value;
                     $(".player-status").text("{% translate 'Not Ready' %}");
                     value.forEach(user => {
                         $(`[data-username="${user}"] .player-status`).text("{% translate 'Ready' %}");
                     });
                 },
-                get ready_players() {
-                    return this._ready_players;
+                get readyPlayers() {
+                    return this._readyPlayers;
                 },
 
                 _status: undefined,
@@ -450,7 +450,7 @@
                     /*html*/`
                     <tr data-username="${user}">
                         <td>${user}</td>
-                        <td class="player-status">${clientStatus.roomData.ready_players.includes(user) ? "{% translate 'Ready' %}" : "{% translate 'Not Ready' %}"}</td>
+                        <td class="player-status">${clientStatus.roomData.readyPlayers.includes(user) ? "{% translate 'Ready' %}" : "{% translate 'Not Ready' %}"}</td>
                         <td class="owner-only">
                             <button class="btn hide-playing">{% translate 'Kick' %}</button>
                             <button class="btn show-ordering">{% translate 'Move Up' %}</button>
@@ -523,11 +523,11 @@
                                 clientStatus.roomData.status = message.data.status;
                                 break;
                             case 'ready':
-                                clientStatus.roomData.ready_players.push(message.data.user);
+                                clientStatus.roomData.readyPlayers.push(message.data.user);
                                 $(`[data-username="${message.data.user}"] .player-status`).text("{% translate 'Ready' %}");
                                 break;
                             case 'unready':
-                                clientStatus.roomData.ready_players.splice(clientStatus.roomData.ready_players.indexOf(message.data.user), 1);
+                                clientStatus.roomData.readyPlayers.splice(clientStatus.roomData.readyPlayers.indexOf(message.data.user), 1);
                                 $(`[data-username="${message.data.user}"] .player-status`).text("{% translate 'Not Ready' %}");
                                 break;
                             case 'start':
@@ -543,7 +543,7 @@
                                 break;
                             case 'guess':
                                 clientStatus.roomData.range = message.data.new_range;
-                                clientStatus.roomData.current_player = message.data.current_player;
+                                clientStatus.roomData.currentPlayer = message.data.current_player;
                                 break;
                             case 'order':
                                 clientStatus.roomData.order = message.data.order;
@@ -559,8 +559,8 @@
                                     clientStatus.roomData.name = message.data.room_data.name;
                                     clientStatus.roomData.owner = message.data.room_data.owner;
                                     clientStatus.roomData.order = message.data.room_data.order;
-                                    clientStatus.roomData.current_player = message.data.room_data.current_player;
-                                    clientStatus.roomData.ready_players = message.data.room_data.ready_players;
+                                    clientStatus.roomData.currentPlayer = message.data.room_data.current_player;
+                                    clientStatus.roomData.readyPlayers = message.data.room_data.ready_players;
                                     clientStatus.roomData.status = message.data.room_data.status;
                                     clientStatus.roomData.range = message.data.room_data.range;
                                     clientStatus.isOwner = message.data.is_owner;
