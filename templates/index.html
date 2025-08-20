@@ -10,45 +10,51 @@
 </head>
 
 <body>
-    <h1>NumBombOnline</h1>
-    {% if user.is_authenticated %}
-    <p>{% translate "Welcome" %}, {{ user.username }}! <a href="{% url 'profile' %}">Profile</a> <a href="{% url 'logout' %}">Logout</a></p>
-    <h2>{% translate "Room List" %}</h2>
-    <p><a href="{% url 'room_create' %}">{% translate "Create a Room" %}</a></p>
-    <table>
-        <thead>
-            <tr>
-                <th>{% translate "Name" %}</th>
-                <th>{% translate "Owner" %}</th>
-                <th>{% translate "Join" %}</th>
-                <th>{% translate "Spectate" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for room in rooms %}
-            <tr>
-                <td><a href="{% url 'room_detail' room.id %}">{{ room.name }}</a></td>
-                <td>
-                    {% if room.owner %}
-                    <a href="{% url 'profile_username' room.owner.username %}">{{ room.owner.username }}</a>
-                    {% else %}
-                    -
-                    {% endif %}
-                </td>
-                <td><a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a></td>
-                <td><a href="{% url 'room_spectate' room.id %}">{% translate "Spectate" %}</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" style="text-align: center">{% translate "No Rooms Available" %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <a href="{% url 'login' %}" style="font-size: 300px">Login</a>
-    <a href="{% url 'register' %}" style="font-size: 300px">Register</a>
-    {% endif %}
+    <div class="middle">
+        <h1>NumBombOnline</h1>
+        {% if user.is_authenticated %}
+        <p>
+            {% translate "Welcome" %}, {{ user.username }}!
+            <p><a class="btn" href="{% url 'profile' %}">Profile</a></p>
+            <p><a class="btn" href="{% url 'logout' %}">Logout</a></p>
+        </p>
+        <h2>{% translate "Room List" %}</h2>
+        <p><a class="btn" href="{% url 'room_create' %}">{% translate "Create a Room" %}</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>{% translate "Name" %}</th>
+                    <th>{% translate "Owner" %}</th>
+                    <th>{% translate "Join" %}</th>
+                    <th>{% translate "Spectate" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td><a href="{% url 'room_detail' room.id %}">{{ room.name }}</a></td>
+                    <td>
+                        {% if room.owner %}
+                        <a href="{% url 'profile_username' room.owner.username %}">{{ room.owner.username }}</a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a></td>
+                    <td><a href="{% url 'room_spectate' room.id %}">{% translate "Spectate" %}</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center">{% translate "No Rooms Available" %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <a class="btn" href="{% url 'login' %}" style="border-radius: 80px; font-size: 300px">Login</a>
+        <a class="btn" href="{% url 'register' %}" style="border-radius: 80px; font-size: 300px">Register</a>
+        {% endif %}
+    </div>
 </body>
 
 </html>

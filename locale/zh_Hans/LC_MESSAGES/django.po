@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 12:01+0800\n"
+"POT-Creation-Date: 2025-08-20 14:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,7 +58,7 @@ msgstr "游戏"
 msgid "Room name"
 msgstr "房间名称"
 
-#: .\game\forms.py:7
+#: .\game\forms.py:7 .\game\models.py:9
 msgid "New room"
 msgstr "新房间"
 
@@ -130,6 +130,30 @@ msgstr "玩家顺序"
 msgid "room status"
 msgstr "房间状态"
 
+#: .\game\models.py:23
+msgid "Joining"
+msgstr "加入中"
+
+#: .\game\models.py:24
+msgid "Ordering"
+msgstr "排序中"
+
+#: .\game\models.py:25
+msgid "Preparing"
+msgstr "准备中"
+
+#: .\game\models.py:26
+msgid "Playing"
+msgstr "游玩中"
+
+#: .\game\models.py:27
+msgid "End"
+msgstr "结束"
+
+#: .\game\models.py:28
+msgid "ERROR"
+msgstr "错误"
+
 #: .\game\models.py:30
 msgid "active"
 msgstr "有效"
@@ -148,36 +172,36 @@ msgstr "房间"
 msgid "lang"
 msgstr "zh_Hans"
 
-#: .\templates\index.html:15
+#: .\templates\index.html:17
 msgid "Welcome"
 msgstr "欢迎"
 
-#: .\templates\index.html:16
+#: .\templates\index.html:21
 msgid "Room List"
 msgstr "房间列表"
 
-#: .\templates\index.html:17 .\templates\room_create.html:8
-#: .\templates\room_create.html:12
+#: .\templates\index.html:22 .\templates\room_create.html:8
+#: .\templates\room_create.html:13
 msgid "Create a Room"
 msgstr "创建房间"
 
-#: .\templates\index.html:21
+#: .\templates\index.html:26
 msgid "Name"
 msgstr "名称"
 
-#: .\templates\index.html:22
+#: .\templates\index.html:27
 msgid "Owner"
 msgstr "拥有者"
 
-#: .\templates\index.html:23 .\templates\index.html:32
+#: .\templates\index.html:28 .\templates\index.html:43
 msgid "Join"
 msgstr "加入"
 
-#: .\templates\index.html:24 .\templates\index.html:33
+#: .\templates\index.html:29 .\templates\index.html:44
 msgid "Spectate"
 msgstr "旁观"
 
-#: .\templates\index.html:37
+#: .\templates\index.html:48
 msgid "No Rooms Available"
 msgstr "暂无房间"
 
@@ -214,7 +238,7 @@ msgstr "注册"
 msgid "Register To NumBombOnline"
 msgstr "注册到NumBombOnline"
 
-#: .\templates\room_create.html:18
+#: .\templates\room_create.html:19
 msgid "Submit"
 msgstr "提交"
 

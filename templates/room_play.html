@@ -1,0 +1,375 @@
+{% load i18n %}
+
+<html lang="{% translate 'lang' %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'Playing' %}</title>
+    {% include 'style.html' %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid #ff5722;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff8a00, #da1b60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        .card {
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            width: 50%;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ff9800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #444;
+            background: rgba(20, 20, 30, 0.8);
+            color: white;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff5722;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.3);
+        }
+
+        button {
+            background: linear-gradient(to right, #ff5722, #ff9800);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .player-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .player-tag {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #ff9800;
+            border-radius: 50px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-tag .fa-user {
+            color: #ff9800;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            gap: 20px;
+        }
+
+        .info-box {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .info-box h3 {
+            color: #ff9800;
+            margin-bottom: 10px;
+        }
+
+        .info-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff5722;
+        }
+
+        .current-player {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 25px 0;
+            color: #ff5722;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .range-display {
+            text-align: center;
+            font-size: 1.6rem;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ff5722;
+            width: max-content;
+            display: inline-block
+        }
+
+        .boom-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .boom-text {
+            font-size: 8rem;
+            font-weight: 900;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            animation: boom 0.5s infinite alternate;
+        }
+
+        @keyframes boom {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.2);
+            }
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .result-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #ff9800;
+        }
+
+        .winner,
+        .loser {
+            font-size: 1.8rem;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .winner {
+            background: rgba(0, 150, 0, 0.3);
+            color: #4caf50;
+        }
+
+        .loser {
+            background: rgba(200, 0, 0, 0.3);
+            color: #f44336;
+        }
+
+        .cheat-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .player-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .player-input input {
+            flex: 1;
+        }
+
+        .player-input button {
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .game-info {
+                flex-direction: column;
+            }
+
+            .current-player {
+                font-size: 1.5rem;
+            }
+
+            .boom-text {
+                font-size: 5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card" id="game-card">
+        <h2 class="card-title"><i class="fas fa-bomb"></i> 数字炸弹</h2>
+
+        <div class="game-info">
+            <div class="info-box">
+                <h3>当前范围</h3>
+                <div class="range-display" id="current-range">
+                    1 ~ 100
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>剩余玩家</h3>
+                <div class="info-value" id="remaining-players">
+                    3
+                </div>
+            </div>
+        </div>
+
+        <div class="current-player" id="current-player">
+            玩家1的回合
+        </div>
+
+        <div class="input-container">
+            <label for="guess-input">输入你的猜测</label>
+            <input type="text" id="guess-input" placeholder="输入范围内的数字">
+        </div>
+
+        <button class="btn-full" id="guess-btn">
+            <i class="fas fa-paper-plane"></i> 提交答案
+        </button>
+    </div>
+</body>
+
+</html>

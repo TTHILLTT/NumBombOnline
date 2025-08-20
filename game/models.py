@@ -20,12 +20,12 @@ class Room(models.Model):
     current_player = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='current_player', verbose_name=_('current player')) # 当前玩家
     order = models.JSONField(_('player order'), default=list, blank=True) # 玩家顺序
     status = models.CharField(_('room status'), max_length=20, choices=[
-        ('joining', '加入中'), 
-        ('ordering', '排序中'), 
-        ('preparing', '准备中'),
-        ('playing', '进行中'),
-        ('end', '结束'),
-        ('ERROR', '错误'),
+        ('joining', _('Joining')), 
+        ('ordering', _('Ordering')),
+        ('preparing', _('Preparing')),
+        ('playing', _("Playing")),
+        ('end', _('End')),
+        ('ERROR', _('ERROR')),
     ], default='not_playing')
     active = models.BooleanField(_('active'), default=True) # 是否活跃
 

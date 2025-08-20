@@ -17,7 +17,7 @@ def room_create(request):
             room = form.save(commit=False)
             room.owner = request.user
             room.save()
-            return redirect('room_detail', room_id=room.id)
+            return redirect('room_play', room_id=room.id)
     else:
         form = RoomForm()
         return render(request, 'room_create.html', {"form": form})
@@ -30,7 +30,7 @@ def room_spectate(request, room_id):
     pass
 
 def room_play(request, room_id):
-    pass
+    return render(request, 'room_play.html', {"room": Room.objects.get(id=room_id)})
 
 def ws_echo_test(request):
     return render(request, 'ws_echo_test.html')

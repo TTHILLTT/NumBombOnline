@@ -9,14 +9,16 @@
     {% include 'style.html' %}
 
 <body>
-    <h1>{% translate 'Create a Room' %}</h1>
-    <form method="post" action="{% url 'room_create' %}">
-        {% csrf_token %}
-        <table style="text-align: left;">
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="{% translate 'Submit' %}">
-    </form>
+    <div class="middle">
+        <h1>{% translate 'Create a Room' %}</h1>
+        <form method="post" action="{% url 'room_create' %}">
+            {% csrf_token %}
+            <table style="text-align: left;">
+                {{ form.as_table }}
+            </table>
+            <p style="text-align: center"><input class="btn" type="submit" value="{% translate 'Submit' %}"></p>
+        </form>
+    </div>
 </body>
 
 </html>

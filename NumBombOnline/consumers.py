@@ -18,5 +18,6 @@ class WsConsumer(AsyncWebsocketConsumer):
         # 任何时候都可以通过 scope 获取用户
         current_user = self.scope["user"]
         print(f"收到来自 {current_user.username} 的消息: {text_data}")
+        await self.send(text_data=f"已收到来自 {current_user.username} 的消息: {text_data}")
 
     # ... 其他方法 (disconnect 等)
