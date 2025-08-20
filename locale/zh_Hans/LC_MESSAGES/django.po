@@ -96,7 +96,7 @@ msgstr "最大玩家数"
 
 #: .\game\models.py:14
 msgid "players"
-msgstr "最大玩家数"
+msgstr "玩家"
 
 #: .\game\models.py:15
 msgid "hide room"

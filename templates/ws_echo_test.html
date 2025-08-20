@@ -1,0 +1,83 @@
+{% load i18n %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echo test</title>
+    {% include 'style.html' %}
+
+</head>
+
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Message</th>
+                <th>Time</th>
+                <th>From</th>
+            </tr>
+        </thead>
+        <tbody id="messages">
+
+        </tbody>
+    </table>
+    <input type="text" id="message" placeholder="Enter message">
+    <script>
+        function getWSUrl() {
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            const host = window.location.host;
+            const path = '/ws/';
+            return protocol + '://' + host + path;
+        }
+        const ws = new WebSocket(getWSUrl());
+        const messages = document.getElementById('messages');
+        const messageInput = document.getElementById('message');
+        ws.onopen = function (event) {
+            console.log('Socket opened');
+        };
+        ws.onmessage = function (event) {
+            console.log('Received message:', event.data);
+            const row = document.createElement('tr');
+            const messageCell = document.createElement('td');
+            const timeCell = document.createElement('td');
+            const fromCell = document.createElement('td');
+            messageCell.textContent = event.data;
+            timeCell.textContent = new Date().toLocaleString();
+            fromCell.textContent = 'Server';
+            row.appendChild(messageCell);
+            row.appendChild(timeCell);
+            row.appendChild(fromCell);
+            messages.appendChild(row);
+        };
+        ws.onclose = function (event) {
+            console.log('Socket closed');
+            alert('Socket closed');
+        };
+        ws.onerror = function (error) {
+            console.log('Socket error:', error);
+            alert('Socket error');
+        };
+        messageInput.addEventListener('keyup', function (event) {
+            if (event.keyCode === 13) {
+                const message = messageInput.value;
+                ws.send(message);
+                const row = document.createElement('tr');
+                const messageCell = document.createElement('td');
+                const timeCell = document.createElement('td');
+                const fromCell = document.createElement('td');
+                messageCell.textContent = message;
+                timeCell.textContent = new Date().toLocaleString();
+                fromCell.textContent = 'You';
+                row.appendChild(messageCell);
+                row.appendChild(timeCell);
+                row.appendChild(fromCell);
+                messageInput.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

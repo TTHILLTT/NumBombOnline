@@ -7,7 +7,7 @@ from .models import Room
 
 
 def index(request):
-    return render(request, 'index.html', {"rooms": Room.objects.all()})
+    return render(request, 'index.html', {"rooms": Room.objects.filter(active=True, hide_room=False)})
 
 
 def room_create(request):
@@ -31,3 +31,6 @@ def room_spectate(request, room_id):
 
 def room_play(request, room_id):
     pass
+
+def ws_echo_test(request):
+    return render(request, 'ws_echo_test.html')

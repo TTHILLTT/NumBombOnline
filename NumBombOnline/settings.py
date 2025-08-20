@@ -31,12 +31,14 @@ ALLOWED_HOSTS = ["*", "nbo.myworldzycpc.top"]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'account',  # Custom user app
     'game',     # Game app
 ]
@@ -71,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NumBombOnline.wsgi.application'
 
+ASGI_APPLICATION = 'NumBombOnline.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

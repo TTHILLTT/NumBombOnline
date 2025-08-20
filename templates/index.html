@@ -28,13 +28,19 @@
             {% for room in rooms %}
             <tr>
                 <td><a href="{% url 'room_detail' room.id %}">{{ room.name }}</a></td>
-                <td><a href="{% url 'profile_username' room.owner.username %}">{{ room.owner.username }}</a></td>
+                <td>
+                    {% if room.owner %}
+                    <a href="{% url 'profile_username' room.owner.username %}">{{ room.owner.username }}</a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
                 <td><a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a></td>
                 <td><a href="{% url 'room_spectate' room.id %}">{% translate "Spectate" %}</a></td>
             </tr>
             {% empty %}
             <tr>
-                <td>{% translate "No Rooms Available" %}</td>
+                <td colspan="4" style="text-align: center">{% translate "No Rooms Available" %}</td>
             </tr>
             {% endfor %}
         </tbody>
