@@ -134,3 +134,7 @@ CSRF_TRUSTED_ORIGINS = ['https://nbo.myworldzycpc.top']
 LOCALE_PATHS = [BASE_DIR / 'locale']
 
 LOGIN_REDIRECT_URL = 'index'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]

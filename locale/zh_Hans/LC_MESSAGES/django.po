@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 14:47+0800\n"
+"POT-Creation-Date: 2025-08-20 23:03+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "胜局数"
 msgid "lose count"
 msgstr "输局数"
 
-#: .\game\admin.py:23 .\game\models.py:10
+#: .\game\admin.py:23 .\game\models.py:11
 msgid "owner"
 msgstr "拥有者"
 
@@ -58,7 +58,7 @@ msgstr "游戏"
 msgid "Room name"
 msgstr "房间名称"
 
-#: .\game\forms.py:7 .\game\models.py:9
+#: .\game\forms.py:7 .\game\models.py:10
 msgid "New room"
 msgstr "新房间"
 
@@ -78,97 +78,109 @@ msgstr "最大玩家数"
 msgid "Step time (seconds)"
 msgstr "步时（秒）"
 
-#: .\game\models.py:9
+#: .\game\models.py:10
 msgid "room name"
 msgstr "房间名称"
 
-#: .\game\models.py:11
+#: .\game\models.py:12
 msgid "minimum number"
 msgstr "最小数字"
 
-#: .\game\models.py:12
+#: .\game\models.py:13
 msgid "maximum number"
 msgstr "最大数字"
 
-#: .\game\models.py:13
+#: .\game\models.py:14
+msgid "answer"
+msgstr "答案"
+
+#: .\game\models.py:15
 msgid "maximum player number"
 msgstr "最大玩家数"
 
-#: .\game\models.py:14
+#: .\game\models.py:16
 msgid "players"
 msgstr "玩家"
 
-#: .\game\models.py:15
+#: .\game\models.py:17
+msgid "ready players"
+msgstr "准备好的玩家"
+
+#: .\game\models.py:18
 msgid "hide room"
 msgstr "隐藏房间"
 
-#: .\game\models.py:16
+#: .\game\models.py:19
 msgid "created at"
 msgstr "创建时间"
 
-#: .\game\models.py:17
+#: .\game\models.py:20
 msgid "updated at"
 msgstr "更新时间"
 
-#: .\game\models.py:18
+#: .\game\models.py:21
 msgid "room code"
 msgstr "房间码"
 
-#: .\game\models.py:19
+#: .\game\models.py:22
 msgid "step time limit"
 msgstr "步时"
 
-#: .\game\models.py:20
+#: .\game\models.py:23
 msgid "current player"
 msgstr "当前玩家"
 
-#: .\game\models.py:21
+#: .\game\models.py:24
 msgid "player order"
 msgstr "玩家顺序"
 
-#: .\game\models.py:22
+#: .\game\models.py:25
+msgid "loser"
+msgstr "输家"
+
+#: .\game\models.py:26
 msgid "room status"
 msgstr "房间状态"
 
-#: .\game\models.py:23
+#: .\game\models.py:27
 msgid "Joining"
 msgstr "加入中"
 
-#: .\game\models.py:24
+#: .\game\models.py:28
 msgid "Ordering"
 msgstr "排序中"
 
-#: .\game\models.py:25
+#: .\game\models.py:29
 msgid "Preparing"
 msgstr "准备中"
 
-#: .\game\models.py:26
+#: .\game\models.py:30 .\templates\room_play.html:9
 msgid "Playing"
 msgstr "游玩中"
 
-#: .\game\models.py:27
+#: .\game\models.py:31
 msgid "End"
 msgstr "结束"
 
-#: .\game\models.py:28
+#: .\game\models.py:32
 msgid "ERROR"
 msgstr "错误"
 
-#: .\game\models.py:30
+#: .\game\models.py:34
 msgid "active"
 msgstr "有效"
 
-#: .\game\models.py:36
+#: .\game\models.py:46
 msgid "room"
 msgstr "房间"
 
-#: .\game\models.py:37
+#: .\game\models.py:47
 msgid "rooms"
 msgstr "房间"
 
 #: .\templates\index.html:3 .\templates\login.html:4 .\templates\profile.html:3
 #: .\templates\register.html:3 .\templates\room_create.html:3
-#: .\templates\room_detail.html:3
+#: .\templates\room_detail.html:3 .\templates\room_play.html:4
 msgid "lang"
 msgstr "zh_Hans"
 
@@ -193,15 +205,19 @@ msgstr "名称"
 msgid "Owner"
 msgstr "拥有者"
 
-#: .\templates\index.html:28 .\templates\index.html:43
+#: .\templates\index.html:28 .\templates\index.html:45
 msgid "Join"
 msgstr "加入"
 
-#: .\templates\index.html:29 .\templates\index.html:44
+#: .\templates\index.html:29 .\templates\index.html:50
 msgid "Spectate"
 msgstr "旁观"
 
-#: .\templates\index.html:48
+#: .\templates\index.html:47
+msgid "Locked"
+msgstr "锁定"
+
+#: .\templates\index.html:54
 msgid "No Rooms Available"
 msgstr "暂无房间"
 
@@ -245,6 +261,65 @@ msgstr "提交"
 #: .\templates\room_detail.html:8
 msgid "Room Detail"
 msgstr "房间详情"
+
+#: .\templates\room_play.html:401 .\templates\room_play.html:453
+#: .\templates\room_play.html:498 .\templates\room_play.html:531
+msgid "Not Ready"
+msgstr "未准备"
+
+#: .\templates\room_play.html:403 .\templates\room_play.html:453
+#: .\templates\room_play.html:527
+msgid "Ready"
+msgstr "准备"
+
+#: .\templates\room_play.html:433 .\templates\room_play.html:634
+msgid "Close Room"
+msgstr "关闭房间"
+
+#: .\templates\room_play.html:436
+msgid "Leave Room"
+msgstr "离开房间"
+
+#: .\templates\room_play.html:455 .\templates\room_play.html:500
+msgid "Kick"
+msgstr "踢"
+
+#: .\templates\room_play.html:456 .\templates\room_play.html:501
+msgid "Move Up"
+msgstr "上移"
+
+#: .\templates\room_play.html:457 .\templates\room_play.html:502
+msgid "Move Down"
+msgstr "下移"
+
+#: .\templates\room_play.html:516
+msgid "Room has been Closed"
+msgstr "房间已关闭"
+
+#: .\templates\room_play.html:538
+#, python-format
+msgid "%(loser)s has lost the game. The Answer is %(answer)s."
+msgstr "%(loser)s 输了，答案是 %(answer)s。"
+
+#: .\templates\room_play.html:618
+msgid "Status"
+msgstr "状态"
+
+#: .\templates\room_play.html:618
+msgid "Waiting for players to join..."
+msgstr "等待玩家加入..."
+
+#: .\templates\room_play.html:619
+msgid "Players"
+msgstr "玩家"
+
+#: .\templates\room_play.html:633
+msgid "Lock Room"
+msgstr "锁定房间"
+
+#: .\templates\room_play.html:668
+msgid "Time Left"
+msgstr "剩余时间"
 
 #~ msgid "Username"
 #~ msgstr "账号"

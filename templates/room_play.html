@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 
 <html lang="{% translate 'lang' %}">
 
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% translate 'Playing' %}</title>
     {% include 'style.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -47,6 +49,7 @@
             margin-bottom: 10px;
             background: linear-gradient(to right, #ff8a00, #da1b60);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -334,12 +337,312 @@
                 font-size: 5rem;
             }
         }
+
+        body:not(.owner) .owner-only {
+            display: none;
+        }
+
+        body:not(.ordering) .show-ordering {
+            display: none;
+        }
+
+        body.playing .hide-playing {
+            display: none;
+        }
     </style>
+    {% include 'jquery.html' %}
+    <script>
+        const ROOM_ID = parseInt("{{ room.id }}");
+        let ws = undefined;
+
+        const clientStatus = {
+            username: undefined,
+            room: undefined,
+            roomData: {
+                _name: undefined,
+                set name(value) {
+                    this._name = value;
+                    $("#room-name").text(value);
+                },
+                get name() {
+                    return this._name;
+                },
+
+                _owner: undefined,
+                set owner(value) {
+                    this._owner = value;
+                    $("#owner").text(value);
+                },
+                get owner() {
+                    return this._owner;
+                },
+
+                _order: [],
+                set order(value) {
+                    this._order = value;
+                    updatePlayerList();
+                },
+                get order() {
+                    return this._order;
+                },
+
+                _current_player: undefined,
+                set current_player(value) {
+                    this._current_player = value;
+                    $("#current-player").text(value);
+                },
+                get current_player() {
+                    return this._current_player;
+                },
+
+                _ready_players: [],
+                set ready_players(value) {
+                    this._ready_players = value;
+                    $(".player-status").text("{% translate 'Not Ready' %}");
+                    value.forEach(user => {
+                        $(`[data-username="${user}"] .player-status`).text("{% translate 'Ready' %}");
+                    });
+                },
+                get ready_players() {
+                    return this._ready_players;
+                },
+
+                _status: undefined,
+                set status(value) {
+                    this._status = value;
+                    $("body").removeClass("joining ordering preparing playing end").addClass(value);
+                },
+                get status() {
+                    return this._status;
+                },
+
+                _range: [undefined, undefined],
+                set range(value) {
+                    this._range = value;
+                    $("#current-range").text(`${value[0]} ~ ${value[1]}`);
+                },
+                get range() {
+                    return this._range;
+                },
+            },
+            _isOwner: false,
+            set isOwner(value) {
+                this._isOwner = value;
+                if (value) {
+                    $("body").addClass("owner");
+                    $("#close-room-btn").text("{% translate 'Close Room' %}");
+                } else {
+                    $("body").removeClass("owner");
+                    $("#close-room-btn").text("{% translate 'Leave Room' %}");
+                }
+            },
+            get isOwner() {
+                return this._isOwner;
+            }
+        };
+
+        function updatePlayerList() {
+            const order = clientStatus.roomData.order;
+            $("#player-list").empty();
+            $("#players").empty();
+            order.forEach(user => {
+                $("#player-list").append(
+                    /*html*/`
+                    <tr data-username="${user}">
+                        <td>${user}</td>
+                        <td class="player-status">${clientStatus.roomData.ready_players.includes(user) ? "{% translate 'Ready' %}" : "{% translate 'Not Ready' %}"}</td>
+                        <td class="owner-only">
+                            <button class="btn hide-playing">{% translate 'Kick' %}</button>
+                            <button class="btn show-ordering">{% translate 'Move Up' %}</button>
+                            <button class="btn show-ordering">{% translate 'Move Down' %}</button>
+                        </td>
+                    </tr>`
+                );
+                $("#players").append(/*html*/`<a href="{{ profile_url }}" target="_blank">${user}</a>`);
+            });
+        }
+
+        function getWSUrl() {
+            const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            const host = window.location.host;
+            const path = '/ws/';
+            return protocol + '://' + host + path;
+        }
+        function connectToWS() {
+            ws = new WebSocket(getWSUrl());
+            ws.onopen = function (event) {
+                console.log('Socket opened');
+                sendData({
+                    type: 'action',
+                    action: 'join',
+                    data: {
+                        room_id: ROOM_ID,
+                    }
+                });
+            };
+            ws.onmessage = function (event) {
+                console.log('Received message:', event.data);
+                const message = JSON.parse(event.data);
+                switch (message.type) {
+                    case 'event':
+                        switch (message.event) {
+                            case 'join':
+                                if (clientStatus.roomData.order.includes(message.data.user)) {
+                                    return;
+                                }
+                                clientStatus.roomData.order.push(message.data.user);
+                                $("#player-list").append(
+                                    /*html*/`
+                                    <tr data-username="${message.data.user}">
+                                        <td>${message.data.user}</td>
+                                        <td class="player-status">{% translate 'Not Ready' %}</td>
+                                        <td class="owner-only">
+                                            <button class="btn hide-playing">{% translate 'Kick' %}</button>
+                                            <button class="btn show-ordering">{% translate 'Move Up' %}</button>
+                                            <button class="btn show-ordering">{% translate 'Move Down' %}</button>
+                                        </td>
+                                    </tr>`
+                                );
+                                break;
+                            case 'leave':
+                                clientStatus.roomData.order.splice(clientStatus.roomData.order.indexOf(message.data.user), 1);
+                                $(`[data-username="${message.data.user}"]`).remove();
+                                break;
+                            case 'kick':
+                                clientStatus.roomData.order.splice(clientStatus.roomData.order.indexOf(message.data.user), 1);
+                                $(`[data-username="${message.data.user}"]`).remove();
+                            case 'deactive':
+                                {
+                                    const endMessage = "{% translate 'Room has been Closed' %}";
+                                    alert(endMessage);
+                                    clientStatus.roomData.status = 'end';
+                                    end(endMessage);
+                                }
+                                break;
+                            case 'next':
+                                clientStatus.roomData.status = message.data.status;
+                                break;
+                            case 'ready':
+                                clientStatus.roomData.ready_players.push(message.data.user);
+                                $(`[data-username="${message.data.user}"] .player-status`).text("{% translate 'Ready' %}");
+                                break;
+                            case 'unready':
+                                clientStatus.roomData.ready_players.splice(clientStatus.roomData.ready_players.indexOf(message.data.user), 1);
+                                $(`[data-username="${message.data.user}"] .player-status`).text("{% translate 'Not Ready' %}");
+                                break;
+                            case 'start':
+                                clientStatus.roomData.status = 'playing';
+                                break;
+                            case 'lose':
+                                {
+                                    const endMessage = `{% blocktranslate with loser="${message.data.user}" answer="${message.data.answer}" %}{{ loser }} has lost the game. The Answer is {{ answer }}.{% endblocktranslate %}`;
+                                    alert(endMessage);
+                                    clientStatus.roomData.status = 'end';
+                                    end(endMessage);
+                                }
+                                break;
+                            case 'guess':
+                                clientStatus.roomData.range = message.data.new_range;
+                                clientStatus.roomData.current_player = message.data.current_player;
+                                break;
+                            case 'order':
+                                clientStatus.roomData.order = message.data.order;
+                                break;
+                        }
+                        break;
+                    case 'status':
+                        if (message.status === 'success') {
+                            switch (message.action) {
+                                case 'join':
+                                    clientStatus.username = message.data.user;
+                                    clientStatus.room = message.data.room;
+                                    clientStatus.roomData.name = message.data.room_data.name;
+                                    clientStatus.roomData.owner = message.data.room_data.owner;
+                                    clientStatus.roomData.order = message.data.room_data.order;
+                                    clientStatus.roomData.current_player = message.data.room_data.current_player;
+                                    clientStatus.roomData.ready_players = message.data.room_data.ready_players;
+                                    clientStatus.roomData.status = message.data.room_data.status;
+                                    clientStatus.roomData.range = message.data.room_data.range;
+                                    clientStatus.isOwner = message.data.is_owner;
+                                    break;
+                            }
+                        } else {
+                            alert(message.error);
+                        }
+                        break;
+                    case 'error':
+                        alert(message.error);
+                        if (message.fatal) {
+                            end(message.error);
+                        }
+                        break;
+                    default:
+                        console.log('Unknown message type:', message);
+                        break;
+                }
+            };
+            ws.onclose = function (event) {
+                console.log('Socket closed');
+                alert('Socket closed');
+                connectToWS();
+            };
+            ws.onerror = function (error) {
+                console.log('Socket error:', error);
+                alert('Socket error');
+                connectToWS();
+            };
+        }
+
+        function sendData(data) {
+            console.log('Sending data:', data);
+            ws.send(JSON.stringify(data));
+        }
+
+        function end(message) {
+            window.close();
+            document.body.innerHTML = message;
+        }
+
+        $(function () {
+            $(".owner-only").hide();
+            connectToWS();
+        })
+    </script>
 </head>
 
 <body>
+    <!-- 准备阶段 -->
+    <div class="card" id="prepare-card">
+        <h2 class="card-title"><i class="fas fa-hourglass-start"></i> 准备阶段</h2>
+
+        <p>{% translate 'Status' %}: <span id="status">{% translate 'Waiting for players to join...' %}</span></p>
+        <p>{% translate 'Players' %}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>玩家名</th>
+                    <th>准备状态</th>
+                    <th class="owner-only">操作</th>
+                </tr>
+            </thead>
+            <tbody id="player-list">
+
+            </tbody>
+        </table>
+
+        <p><button class="btn" id="next-step-btn">{% translate 'Lock Room' %}</button></p>
+        <p><button class="btn" id="close-room-btn">{% translate 'Close Room' %}</button></p>
+    </div>
+
+    <!-- 游玩阶段 -->
     <div class="card" id="game-card">
         <h2 class="card-title"><i class="fas fa-bomb"></i> 数字炸弹</h2>
+
+        <div class="room-info">
+            <p>房间名: <span id="room-name"></span></p>
+            <p>房主: <span id="owner"></span></p>
+            <p>玩家列表：<span id="players"></span></p>
+        </div>
 
         <div class="game-info">
             <div class="info-box">
@@ -350,15 +653,19 @@
             </div>
 
             <div class="info-box">
-                <h3>剩余玩家</h3>
-                <div class="info-value" id="remaining-players">
+                <h3>玩家数</h3>
+                <div class="info-value" id="player-count">
                     3
                 </div>
             </div>
         </div>
 
-        <div class="current-player" id="current-player">
-            玩家1的回合
+        <div class="current-player">
+            <span id="current-player">玩家1</span>的回合
+        </div>
+
+        <div>
+            <p>{% translate 'Time Left' %}: <span id="time-left">10</span>s</p>
         </div>
 
         <div class="input-container">

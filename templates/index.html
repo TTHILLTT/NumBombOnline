@@ -40,7 +40,13 @@
                         -
                         {% endif %}
                     </td>
-                    <td><a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a></td>
+                    <td>
+                        {% if room.status == 'joining' %}
+                        <a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a>
+                        {% else %}
+                        {% translate "Locked" %}
+                        {% endif %}
+                    </td>
                     <td><a href="{% url 'room_spectate' room.id %}">{% translate "Spectate" %}</a></td>
                 </tr>
                 {% empty %}

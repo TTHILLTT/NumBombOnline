@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-
+from django.urls import reverse
+from urllib.parse import unquote
 from .forms import RoomForm
 from .models import Room
 
@@ -22,15 +23,22 @@ def room_create(request):
         form = RoomForm()
         return render(request, 'room_create.html', {"form": form})
 
+
 def room_detail(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'room_detail.html', {"room": room})
 
+
 def room_spectate(request, room_id):
     pass
 
+
 def room_play(request, room_id):
-    return render(request, 'room_play.html', {"room": Room.objects.get(id=room_id)})
+    # 生成URL后解码
+    raw_url = reverse('profile_username', args=['${user}'])
+    decoded_url = unquote(raw_url)  # 这一步会把%7B转换回{，%7D转换回}
+    return render(request, 'room_play.html', {"room": Room.objects.get(id=room_id), 'profile_url': decoded_url})
+
 
 def ws_echo_test(request):
     return render(request, 'ws_echo_test.html')

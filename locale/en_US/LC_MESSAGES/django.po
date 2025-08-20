@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 14:47+0800\n"
+"POT-Creation-Date: 2025-08-20 23:03+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "lose count"
 msgstr ""
 
-#: .\game\admin.py:23 .\game\models.py:10
+#: .\game\admin.py:23 .\game\models.py:11
 msgid "owner"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Room name"
 msgstr ""
 
-#: .\game\forms.py:7 .\game\models.py:9
+#: .\game\forms.py:7 .\game\models.py:10
 msgid "New room"
 msgstr ""
 
@@ -81,101 +81,113 @@ msgstr ""
 msgid "Step time (seconds)"
 msgstr ""
 
-#: .\game\models.py:9
+#: .\game\models.py:10
 msgid "room name"
 msgstr ""
 
-#: .\game\models.py:11
+#: .\game\models.py:12
 msgid "minimum number"
 msgstr ""
 
-#: .\game\models.py:12
+#: .\game\models.py:13
 msgid "maximum number"
 msgstr ""
 
-#: .\game\models.py:13
-msgid "maximum player number"
-msgstr ""
-
 #: .\game\models.py:14
-msgid "players"
+msgid "answer"
 msgstr ""
 
 #: .\game\models.py:15
-msgid "hide room"
+msgid "maximum player number"
 msgstr ""
 
 #: .\game\models.py:16
+msgid "players"
+msgstr ""
+
+#: .\game\models.py:17
+msgid "ready players"
+msgstr ""
+
+#: .\game\models.py:18
+msgid "hide room"
+msgstr ""
+
+#: .\game\models.py:19
 #, fuzzy
 #| msgid "Create a Room"
 msgid "created at"
 msgstr "Create a Room"
 
-#: .\game\models.py:17
+#: .\game\models.py:20
 msgid "updated at"
 msgstr ""
 
-#: .\game\models.py:18
+#: .\game\models.py:21
 msgid "room code"
 msgstr ""
 
-#: .\game\models.py:19
+#: .\game\models.py:22
 msgid "step time limit"
 msgstr ""
 
-#: .\game\models.py:20
+#: .\game\models.py:23
 msgid "current player"
 msgstr ""
 
-#: .\game\models.py:21
+#: .\game\models.py:24
 msgid "player order"
 msgstr ""
 
-#: .\game\models.py:22
+#: .\game\models.py:25
+msgid "loser"
+msgstr ""
+
+#: .\game\models.py:26
 #, fuzzy
 #| msgid "Room List"
 msgid "room status"
 msgstr "Room List"
 
-#: .\game\models.py:23
+#: .\game\models.py:27
 msgid "Joining"
 msgstr ""
 
-#: .\game\models.py:24
+#: .\game\models.py:28
 msgid "Ordering"
 msgstr ""
 
-#: .\game\models.py:25
+#: .\game\models.py:29
 msgid "Preparing"
 msgstr ""
 
-#: .\game\models.py:26
+#: .\game\models.py:30 .\templates\room_play.html:9
 msgid "Playing"
 msgstr ""
 
-#: .\game\models.py:27
+#: .\game\models.py:31
 msgid "End"
 msgstr ""
 
-#: .\game\models.py:28
+#: .\game\models.py:32
 msgid "ERROR"
 msgstr ""
 
-#: .\game\models.py:30
+#: .\game\models.py:34
 msgid "active"
 msgstr ""
 
-#: .\game\models.py:36
+#: .\game\models.py:46
 msgid "room"
 msgstr ""
 
-#: .\game\models.py:37
+#: .\game\models.py:47
 msgid "rooms"
 msgstr ""
 
 #: .\templates\index.html:3 .\templates\login.html:4 .\templates\profile.html:3
 #: .\templates\register.html:3 .\templates\room_create.html:3
-#: .\templates\room_detail.html:3
+#: .\templates\room_detail.html:3 .\templates\room_play.html:4
 msgid "lang"
 msgstr "en_US"
 
@@ -200,15 +212,19 @@ msgstr ""
 msgid "Owner"
 msgstr ""
 
-#: .\templates\index.html:28 .\templates\index.html:43
+#: .\templates\index.html:28 .\templates\index.html:45
 msgid "Join"
 msgstr ""
 
-#: .\templates\index.html:29 .\templates\index.html:44
+#: .\templates\index.html:29 .\templates\index.html:50
 msgid "Spectate"
 msgstr ""
 
-#: .\templates\index.html:48
+#: .\templates\index.html:47
+msgid "Locked"
+msgstr ""
+
+#: .\templates\index.html:54
 msgid "No Rooms Available"
 msgstr "No Rooms Available"
 
@@ -256,6 +272,71 @@ msgstr ""
 msgid "Room Detail"
 msgstr "Room List"
 
+#: .\templates\room_play.html:401 .\templates\room_play.html:453
+#: .\templates\room_play.html:498 .\templates\room_play.html:531
+msgid "Not Ready"
+msgstr ""
+
+#: .\templates\room_play.html:403 .\templates\room_play.html:453
+#: .\templates\room_play.html:527
+msgid "Ready"
+msgstr ""
+
+#: .\templates\room_play.html:433 .\templates\room_play.html:634
+#, fuzzy
+#| msgid "Create a Room"
+msgid "Close Room"
+msgstr "Create a Room"
+
+#: .\templates\room_play.html:436
+#, fuzzy
+#| msgid "Create a Room"
+msgid "Leave Room"
+msgstr "Create a Room"
+
+#: .\templates\room_play.html:455 .\templates\room_play.html:500
+msgid "Kick"
+msgstr ""
+
+#: .\templates\room_play.html:456 .\templates\room_play.html:501
+msgid "Move Up"
+msgstr ""
+
+#: .\templates\room_play.html:457 .\templates\room_play.html:502
+msgid "Move Down"
+msgstr ""
+
+#: .\templates\room_play.html:516
+msgid "Room has been Closed"
+msgstr ""
+
+#: .\templates\room_play.html:538
+#, python-format
+msgid "%(loser)s has lost the game. The Answer is %(answer)s."
+msgstr ""
+
+#: .\templates\room_play.html:618
+#, fuzzy
+#| msgid "Room List"
+msgid "Status"
+msgstr "Room List"
+
+#: .\templates\room_play.html:618
+msgid "Waiting for players to join..."
+msgstr ""
+
+#: .\templates\room_play.html:619
+msgid "Players"
+msgstr ""
+
+#: .\templates\room_play.html:633
+msgid "Lock Room"
+msgstr ""
+
+#: .\templates\room_play.html:668
+msgid "Time Left"
+msgstr ""
+
 #~ msgid "Username"
 #~ msgstr "Username"
 
@@ -272,8 +353,3 @@ msgstr "Room List"
 #~| msgid "Password"
 #~ msgid "Confirm Password"
 #~ msgstr "Password"
-
-#, fuzzy
-#~| msgid "Create a Room"
-#~ msgid "Create Room"
-#~ msgstr "Create a Room"
