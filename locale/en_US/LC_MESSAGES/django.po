@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-19 23:09+0800\n"
+"POT-Creation-Date: 2025-08-20 12:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\account\admin.py:10
+msgid "Extra Info"
+msgstr ""
+
 #: .\account\apps.py:7
 msgid "Account"
+msgstr ""
+
+#: .\account\forms.py:15
+msgid "The username cannot start with a number."
+msgstr ""
+
+#: .\account\models.py:9
+#, fuzzy
+#| msgid "Bio"
+msgid "bio"
+msgstr "Bio"
+
+#: .\account\models.py:10
+#, fuzzy
+#| msgid "Room List"
+msgid "status"
+msgstr "Room List"
+
+#: .\account\models.py:15
+msgid "win count"
+msgstr ""
+
+#: .\account\models.py:16
+msgid "lose count"
+msgstr ""
+
+#: .\game\admin.py:23 .\game\models.py:10
+msgid "owner"
 msgstr ""
 
 #: .\game\apps.py:8
@@ -51,10 +83,6 @@ msgstr ""
 
 #: .\game\models.py:9
 msgid "room name"
-msgstr ""
-
-#: .\game\models.py:10
-msgid "owner"
 msgstr ""
 
 #: .\game\models.py:11
@@ -103,11 +131,21 @@ msgstr ""
 msgid "player order"
 msgstr ""
 
-#: .\game\models.py:24
+#: .\game\models.py:22
+#, fuzzy
+#| msgid "Room List"
+msgid "room status"
+msgstr "Room List"
+
+#: .\game\models.py:30
+msgid "active"
+msgstr ""
+
+#: .\game\models.py:36
 msgid "room"
 msgstr ""
 
-#: .\game\models.py:25
+#: .\game\models.py:37
 msgid "rooms"
 msgstr ""
 
@@ -130,21 +168,29 @@ msgstr "Room List"
 msgid "Create a Room"
 msgstr "Create a Room"
 
+#: .\templates\index.html:21
+msgid "Name"
+msgstr ""
+
 #: .\templates\index.html:22
+msgid "Owner"
+msgstr ""
+
+#: .\templates\index.html:23 .\templates\index.html:32
+msgid "Join"
+msgstr ""
+
+#: .\templates\index.html:24 .\templates\index.html:33
+msgid "Spectate"
+msgstr ""
+
+#: .\templates\index.html:37
 msgid "No Rooms Available"
 msgstr "No Rooms Available"
 
-#: .\templates\login.html:8 .\templates\login.html:15 .\templates\login.html:18
+#: .\templates\login.html:8 .\templates\login.html:31 .\templates\login.html:37
 msgid "Login"
 msgstr "Login"
-
-#: .\templates\login.html:16
-msgid "Username"
-msgstr "Username"
-
-#: .\templates\login.html:17 .\templates\register.html:34
-msgid "Password"
-msgstr "Password"
 
 #: .\templates\profile.html:8 .\templates\profile.html:14
 msgid "Profile"
@@ -156,7 +202,7 @@ msgstr "Profile"
 msgid "Welcome To %(username)s's Profile!"
 msgstr "Welcome To  %(username)s's Profile!"
 
-#: .\templates\profile.html:16 .\templates\register.html:30
+#: .\templates\profile.html:16
 msgid "Email"
 msgstr "Email"
 
@@ -168,34 +214,40 @@ msgstr "Bio"
 msgid "This user has not written a bio yet."
 msgstr ""
 
-#: .\templates\register.html:7 .\templates\register.html:43
+#: .\templates\register.html:8 .\templates\register.html:37
 msgid "Register"
 msgstr ""
 
-#: .\templates\register.html:11
-msgid "Passwords do not match"
-msgstr ""
-
-#: .\templates\register.html:23
+#: .\templates\register.html:31
 msgid "Register To NumBombOnline"
 msgstr ""
-
-#: .\templates\register.html:26
-#, fuzzy
-#| msgid "Username"
-msgctxt "register"
-msgid "Username"
-msgstr "Username"
-
-#: .\templates\register.html:38
-#, fuzzy
-#| msgid "Password"
-msgid "Confirm Password"
-msgstr "Password"
 
 #: .\templates\room_create.html:18
 msgid "Submit"
 msgstr ""
+
+#: .\templates\room_detail.html:8
+#, fuzzy
+#| msgid "Room List"
+msgid "Room Detail"
+msgstr "Room List"
+
+#~ msgid "Username"
+#~ msgstr "Username"
+
+#~ msgid "Password"
+#~ msgstr "Password"
+
+#, fuzzy
+#~| msgid "Username"
+#~ msgctxt "register"
+#~ msgid "Username"
+#~ msgstr "Username"
+
+#, fuzzy
+#~| msgid "Password"
+#~ msgid "Confirm Password"
+#~ msgstr "Password"
 
 #, fuzzy
 #~| msgid "Create a Room"

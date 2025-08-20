@@ -129,3 +129,5 @@ AUTH_USER_MODEL = 'account.User'
 CSRF_TRUSTED_ORIGINS = ['https://nbo.myworldzycpc.top']
 
 LOCALE_PATHS = [BASE_DIR / 'locale']
+
+LOGIN_REDIRECT_URL = 'index'

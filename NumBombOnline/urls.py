@@ -15,18 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path
 import game.views
 import account.views
+from django.contrib.auth.views import LoginView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', game.views.index, name='index'),
-    path('login/', account.views.user_login, name='login'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', account.views.user_logout, name='logout'),
     path('register/', account.views.register, name='register'),
     path('profile/', account.views.profile, name='profile'),
+    path('accounts/profile/', lambda request: redirect('profile')),
     path('profile/<str:username>/', account.views.profile, name='profile_username'),
     path('room/create/', game.views.room_create, name='room_create'),
-    path('room/<int:room_id>/', game.views.room_detail, name='room_detail'),
+    path('room/detail/<int:room_id>/', game.views.room_detail, name='room_detail'),
+    path('room/spectate/<int:room_id>/', game.views.room_spectate, name='room_spectate'),
+    path('room/play/<int:room_id>/', game.views.room_play, name='room_play'),
 ]

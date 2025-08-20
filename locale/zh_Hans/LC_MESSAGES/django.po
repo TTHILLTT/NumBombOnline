@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-19 23:09+0800\n"
+"POT-Creation-Date: 2025-08-20 12:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: .\account\admin.py:10
+msgid "Extra Info"
+msgstr "更多信息"
+
 #: .\account\apps.py:7
 msgid "Account"
 msgstr "账户"
+
+#: .\account\forms.py:15
+msgid "The username cannot start with a number."
+msgstr "用户名不能以数字开头。"
+
+#: .\account\models.py:9
+msgid "bio"
+msgstr "个人简介"
+
+#: .\account\models.py:10
+msgid "status"
+msgstr "状态"
+
+#: .\account\models.py:15
+msgid "win count"
+msgstr "胜局数"
+
+#: .\account\models.py:16
+msgid "lose count"
+msgstr "输局数"
+
+#: .\game\admin.py:23 .\game\models.py:10
+msgid "owner"
+msgstr "拥有者"
 
 #: .\game\apps.py:8
 msgid "Game"
@@ -53,10 +81,6 @@ msgstr "步时（秒）"
 #: .\game\models.py:9
 msgid "room name"
 msgstr "房间名称"
-
-#: .\game\models.py:10
-msgid "owner"
-msgstr "拥有者"
 
 #: .\game\models.py:11
 msgid "minimum number"
@@ -102,11 +126,19 @@ msgstr "当前玩家"
 msgid "player order"
 msgstr "玩家顺序"
 
-#: .\game\models.py:24
+#: .\game\models.py:22
+msgid "room status"
+msgstr "房间状态"
+
+#: .\game\models.py:30
+msgid "active"
+msgstr "有效"
+
+#: .\game\models.py:36
 msgid "room"
 msgstr "房间"
 
-#: .\game\models.py:25
+#: .\game\models.py:37
 msgid "rooms"
 msgstr "房间"
 
@@ -129,21 +161,29 @@ msgstr "房间列表"
 msgid "Create a Room"
 msgstr "创建房间"
 
+#: .\templates\index.html:21
+msgid "Name"
+msgstr "名称"
+
 #: .\templates\index.html:22
+msgid "Owner"
+msgstr "拥有者"
+
+#: .\templates\index.html:23 .\templates\index.html:32
+msgid "Join"
+msgstr "加入"
+
+#: .\templates\index.html:24 .\templates\index.html:33
+msgid "Spectate"
+msgstr "旁观"
+
+#: .\templates\index.html:37
 msgid "No Rooms Available"
 msgstr "暂无房间"
 
-#: .\templates\login.html:8 .\templates\login.html:15 .\templates\login.html:18
+#: .\templates\login.html:8 .\templates\login.html:31 .\templates\login.html:37
 msgid "Login"
 msgstr "登录"
-
-#: .\templates\login.html:16
-msgid "Username"
-msgstr "账号"
-
-#: .\templates\login.html:17 .\templates\register.html:34
-msgid "Password"
-msgstr "密码"
 
 #: .\templates\profile.html:8 .\templates\profile.html:14
 msgid "Profile"
@@ -154,7 +194,7 @@ msgstr "个人简介"
 msgid "Welcome To %(username)s's Profile!"
 msgstr "欢迎来到 %(username)s 的个人资料页面！"
 
-#: .\templates\profile.html:16 .\templates\register.html:30
+#: .\templates\profile.html:16
 msgid "Email"
 msgstr "电子邮箱地址"
 
@@ -166,27 +206,34 @@ msgstr "个人简介"
 msgid "This user has not written a bio yet."
 msgstr "这个用户还没有写个人简介。"
 
-#: .\templates\register.html:7 .\templates\register.html:43
+#: .\templates\register.html:8 .\templates\register.html:37
 msgid "Register"
 msgstr "注册"
 
-#: .\templates\register.html:11
-msgid "Passwords do not match"
-msgstr "两次输入的密码不一致，请重新输入！"
-
-#: .\templates\register.html:23
+#: .\templates\register.html:31
 msgid "Register To NumBombOnline"
 msgstr "注册到NumBombOnline"
-
-#: .\templates\register.html:26
-msgctxt "register"
-msgid "Username"
-msgstr "账号登录名"
-
-#: .\templates\register.html:38
-msgid "Confirm Password"
-msgstr "请再次输入密码"
 
 #: .\templates\room_create.html:18
 msgid "Submit"
 msgstr "提交"
+
+#: .\templates\room_detail.html:8
+msgid "Room Detail"
+msgstr "房间详情"
+
+#~ msgid "Username"
+#~ msgstr "账号"
+
+#~ msgid "Password"
+#~ msgstr "密码"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "两次输入的密码不一致，请重新输入！"
+
+#~ msgctxt "register"
+#~ msgid "Username"
+#~ msgstr "账号登录名"
+
+#~ msgid "Confirm Password"
+#~ msgstr "请再次输入密码"

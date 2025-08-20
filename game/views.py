@@ -25,3 +25,9 @@ def room_create(request):
 def room_detail(request, room_id):
     room = Room.objects.get(id=room_id)
     return render(request, 'room_detail.html', {"room": room})
+
+def room_spectate(request, room_id):
+    pass
+
+def room_play(request, room_id):
+    pass
