@@ -19,6 +19,8 @@ def room_create(request):
             room.owner = request.user
             room.save()
             return redirect('room_play', room_id=room.id)
+        else:
+            return render(request, 'room_create.html', {"form": form})
     else:
         form = RoomForm()
         return render(request, 'room_create.html', {"form": form})

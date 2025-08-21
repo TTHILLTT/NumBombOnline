@@ -42,12 +42,14 @@
                     </td>
                     <td>
                         {% if room.status == 'joining' %}
-                        <a href="{% url 'room_play' room.id %}">{% translate "Join" %}</a>
+                        <a href="{% url 'room_play' room.id %}" target="_blank">{% translate "Join" %}</a>
+                        {% elif user in room.players.all %}
+                        <a href="{% url 'room_play' room.id %}" target="_blank">{% translate "Continue" %}</a>
                         {% else %}
                         {% translate "Locked" %}
                         {% endif %}
                     </td>
-                    <td><a href="{% url 'room_spectate' room.id %}">{% translate "Spectate" %}</a></td>
+                    <td><a href="{% url 'room_spectate' room.id %}" target="_blank">{% translate "Spectate" %}</a></td>
                 </tr>
                 {% empty %}
                 <tr>

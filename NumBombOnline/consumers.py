@@ -87,6 +87,9 @@ class WsConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         try:
+            if self.room:
+                self.room.refresh_from_db()
+
             print(f"收到来自 {self.user.username} 的消息: {text_data}")
             # 解析消息
             message = json.loads(text_data)
@@ -103,7 +106,7 @@ class WsConsumer(WebsocketConsumer):
                         case "join":
                             # 加入房间
                             self.room = Room.objects.get(id=data["room_id"])
-                            if self.room.status != "joining":
+                            if not self.user in self.room.players.all() and self.room.status != "joining":
                                 self.send_json({"type": "error", "error": "房间已锁定，不能加入", "fatal": True})
                                 return
                             groups["room"][self.room.id].add(self)
@@ -149,6 +152,13 @@ class WsConsumer(WebsocketConsumer):
                         case "leave":
                             # 离开房间
                             if self.room:
+                                if self.room.status == "playing":
+                                    self.send_json({"type": "error", "error": "游戏正在进行，不能离开", "fatal": True})
+                                    return
+                                self.room.players.remove(self.user)
+                                self.room.order.remove(self.user.username)
+                                self.room.save()
+                                self.room_group.discard(self)
                                 self.room_send(
                                     {
                                         "type": "event",
@@ -168,7 +178,6 @@ class WsConsumer(WebsocketConsumer):
                             # 标记房间为非活跃
                             # 仅 Owner 可操作
                             if self.room.owner == self.user:
-                                deactive_room(self.room)
                                 self.room_send(
                                     {
                                         "type": "event",
@@ -179,6 +188,7 @@ class WsConsumer(WebsocketConsumer):
                                         }
                                     }
                                 )
+                                deactive_room(self.room)
                             else:
                                 self.send_json({"type": "error", "error": "你不是房主，不能关闭房间"})
                         case "kick":
@@ -265,6 +275,7 @@ class WsConsumer(WebsocketConsumer):
                                         )
                                         if len(self.room.ready_players.all()) == len(self.room.players.all()):
                                             self.room.status = "playing"
+                                            self.room.current_player = User.objects.get(username=self.room.order[0])
                                             self.room.save()
                                             self.room_send(
                                                 {
@@ -309,7 +320,6 @@ class WsConsumer(WebsocketConsumer):
                                 self.room.status = "end"
                                 self.room.loser = self.room.current_player
                                 self.room.save()
-                                deactive_room(self.room)
                                 self.room_send(
                                     {
                                         "type": "event",
@@ -321,8 +331,9 @@ class WsConsumer(WebsocketConsumer):
                                         }
                                     }
                                 )
+                                deactive_room(self.room)
                             else:
-                                self.room.current_player = self.room.order[(self.room.order.index(self.room.current_player.username) + 1) % len(self.room.order)]
+                                self.room.current_player = User.objects.get(username=self.room.order[(self.room.order.index(self.room.current_player.username) + 1) % len(self.room.order)])
                                 if number < self.room.answer:
                                     self.room.min_num = number + 1
                                 else:
@@ -385,3 +396,15 @@ class WsConsumer(WebsocketConsumer):
             self.room_group.discard(self)
         if self.user_group:
             self.user_group.discard(self)
+
+        self.room_send(
+            {
+                "type": "event",
+                "event": "disconnect",
+                "data": {
+                    "user": self.user.username,
+                    "room": self.room.id if self.room else None,
+                    "user_channel_count": len(self.user_group.intersection(self.room_group)),
+                }
+            }
+        )

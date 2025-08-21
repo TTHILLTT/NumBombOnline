@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -25,6 +23,8 @@
             align-items: center;
             padding: 20px;
             color: #fff;
+            margin: 0;
+            flex-direction: column;
         }
 
         .container {
@@ -69,7 +69,7 @@
         .card {
             background: rgba(30, 30, 50, 0.9);
             border-radius: 15px;
-            padding: 25px;
+            padding: 0 25px 25px 25px;
             margin-bottom: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
@@ -163,7 +163,7 @@
             border: 1px solid #ff9800;
             border-radius: 50px;
             padding: 8px 20px;
-            display: flex;
+            display: inline-block;
             align-items: center;
             gap: 8px;
         }
@@ -349,15 +349,41 @@
         body.playing .hide-playing {
             display: none;
         }
+
+        body.preparing .hide-preparing {
+            display: none;
+        }   
+
+        body:not(.preparing) .show-preparing {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            background: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .player-tag.inactive {
+            background: rgba(131, 131, 131, 0.1);
+            border-color: #9e9e9e;
+        }
     </style>
     {% include 'jquery.html' %}
+    {% include 'humps.html' %}
     <script>
         const ROOM_ID = parseInt("{{ room.id }}");
+        let ended = false;
         let ws = undefined;
 
         const clientStatus = {
             username: undefined,
             room: undefined,
+            playerInfo: {},
             roomData: {
                 _name: undefined,
                 set name(value) {
@@ -411,6 +437,23 @@
                 set status(value) {
                     this._status = value;
                     $("body").removeClass("joining ordering preparing playing end").addClass(value);
+
+                    const statusMap = {
+                        'joining': "{% translate 'Waiting for players to join...' %}",
+                        'ordering': "{% translate 'Ordering players...' %}",
+                        'preparing': "{% translate 'Preparing game...' %}",
+                        'playing': "{% translate 'Game in progress...' %}",
+                        'end': "{% translate 'Game ended...' %}"
+                    };
+
+                    $("#status").text(statusMap[value] || "");
+
+                    const statusMapBtn = {
+                        "joining": "{% translate 'Lock Room' %}",
+                        "ordering": "{% translate 'Lock Order' %}",
+                    }
+
+                    $("#next-step-btn").text(statusMapBtn[value] || "");
                 },
                 get status() {
                     return this._status;
@@ -428,12 +471,11 @@
             _isOwner: false,
             set isOwner(value) {
                 this._isOwner = value;
+                $("body").toggleClass("owner", value);
                 if (value) {
-                    $("body").addClass("owner");
-                    $("#close-room-btn").text("{% translate 'Close Room' %}");
+                    $("#close-room-btn-prepare, #close-room-btn-playing").text("{% translate 'Close Room' %}");
                 } else {
-                    $("body").removeClass("owner");
-                    $("#close-room-btn").text("{% translate 'Leave Room' %}");
+                    $("#close-room-btn-prepare, #close-room-btn-playing").text("{% translate 'Leave Room' %}");
                 }
             },
             get isOwner() {
@@ -458,8 +500,9 @@
                         </td>
                     </tr>`
                 );
-                $("#players").append(/*html*/`<a href="{{ profile_url }}" target="_blank">${user}</a>`);
+                $("#players").append(/*html*/`<span class="player-tag" data-username="${user}"><a href="{{ profile_url }}" target="_blank">${user}</a><span class="channel-count"></span></span>`);
             });
+            $("#player-count").text(`${order.length}`);
         }
 
         function getWSUrl() {
@@ -468,6 +511,14 @@
             const path = '/ws/';
             return protocol + '://' + host + path;
         }
+
+        function updateChannelCount(username, channelCount) {
+            clientStatus.playerInfo[username] ||= {};
+            clientStatus.playerInfo[username].channelCount = channelCount;
+            $(`[data-username="${username}"] .channel-count`).text(`(${channelCount})`);
+            $(`[data-username="${username}"]`).toggleClass("inactive", channelCount === 0);
+        }
+
         function connectToWS() {
             ws = new WebSocket(getWSUrl());
             ws.onopen = function (event) {
@@ -476,17 +527,18 @@
                     type: 'action',
                     action: 'join',
                     data: {
-                        room_id: ROOM_ID,
+                        roomId: ROOM_ID,
                     }
                 });
             };
             ws.onmessage = function (event) {
                 console.log('Received message:', event.data);
-                const message = JSON.parse(event.data);
+                const message = humps.camelizeKeys(JSON.parse(event.data));
                 switch (message.type) {
                     case 'event':
                         switch (message.event) {
                             case 'join':
+                                updateChannelCount(message.data.user, message.data.userChannelCount);
                                 if (clientStatus.roomData.order.includes(message.data.user)) {
                                     return;
                                 }
@@ -503,6 +555,9 @@
                                         </td>
                                     </tr>`
                                 );
+                                break;
+                            case 'disconnect':
+                                updateChannelCount(message.data.user, message.data.userChannelCount);
                                 break;
                             case 'leave':
                                 clientStatus.roomData.order.splice(clientStatus.roomData.order.indexOf(message.data.user), 1);
@@ -532,6 +587,7 @@
                                 break;
                             case 'start':
                                 clientStatus.roomData.status = 'playing';
+                                updatePlayerList();
                                 break;
                             case 'lose':
                                 {
@@ -542,8 +598,8 @@
                                 }
                                 break;
                             case 'guess':
-                                clientStatus.roomData.range = message.data.new_range;
-                                clientStatus.roomData.currentPlayer = message.data.current_player;
+                                clientStatus.roomData.range = message.data.newRange;
+                                clientStatus.roomData.currentPlayer = message.data.currentPlayer;
                                 break;
                             case 'order':
                                 clientStatus.roomData.order = message.data.order;
@@ -556,14 +612,14 @@
                                 case 'join':
                                     clientStatus.username = message.data.user;
                                     clientStatus.room = message.data.room;
-                                    clientStatus.roomData.name = message.data.room_data.name;
-                                    clientStatus.roomData.owner = message.data.room_data.owner;
-                                    clientStatus.roomData.order = message.data.room_data.order;
-                                    clientStatus.roomData.currentPlayer = message.data.room_data.current_player;
-                                    clientStatus.roomData.readyPlayers = message.data.room_data.ready_players;
-                                    clientStatus.roomData.status = message.data.room_data.status;
-                                    clientStatus.roomData.range = message.data.room_data.range;
-                                    clientStatus.isOwner = message.data.is_owner;
+                                    clientStatus.roomData.name = message.data.roomData.name;
+                                    clientStatus.roomData.owner = message.data.roomData.owner;
+                                    clientStatus.roomData.order = message.data.roomData.order;
+                                    clientStatus.roomData.currentPlayer = message.data.roomData.currentPlayer;
+                                    clientStatus.roomData.readyPlayers = message.data.roomData.readyPlayers;
+                                    clientStatus.roomData.status = message.data.roomData.status;
+                                    clientStatus.roomData.range = message.data.roomData.range;
+                                    clientStatus.isOwner = message.data.isOwner;
                                     break;
                             }
                         } else {
@@ -583,34 +639,94 @@
             };
             ws.onclose = function (event) {
                 console.log('Socket closed');
-                alert('Socket closed');
-                connectToWS();
+                if (!ended) {
+                    $("#disconnect-dialog")[0].showModal();
+                }
             };
             ws.onerror = function (error) {
                 console.log('Socket error:', error);
-                alert('Socket error');
-                connectToWS();
+                if (!ended) {
+                    $("#disconnect-dialog")[0].showModal();
+                }
             };
         }
 
         function sendData(data) {
+            data = humps.decamelizeKeys(data);
             console.log('Sending data:', data);
             ws.send(JSON.stringify(data));
         }
 
         function end(message) {
             window.close();
+            ended = true;
+            ws.close();
             document.body.innerHTML = message;
+        }
+
+        function closeOrLeave() {
+            if (clientStatus.isOwner) {
+                ans = confirm("{% translate 'Are you sure to close the room?' %}");
+                if (ans) {
+                    sendData({
+                        type: 'action',
+                        action: 'deactive',
+                        data: {}
+                    });
+                }
+            } else {
+                if (clientStatus.roomData.status === 'playing') {
+                    ans = confirm("{% translate 'The Game is in progress, are you sure to leave the room?' %}");
+                    if (ans) {
+                        end("{% translate 'You have left the room.' %}");
+                    }
+                } else {
+                    sendData({
+                        type: 'action',
+                        action: 'leave',
+                        data: {}
+                    });
+                    end("{% translate 'You have left the room.' %}");
+                }
+            }
+        }
+
+        function submitGuess() {
+            const guess = $("#guess-input").val();
+            if (!guess) {
+                alert("请输入数字");
+                return;
+            }
+            const currentPlayer = clientStatus.roomData.currentPlayer;
+            sendData({
+                type: 'action',
+                action: 'guess',
+                data: {
+                    number: guess,
+                }
+            });
+            $("#guess-input").val("").focus();
         }
 
         $(function () {
             $(".owner-only").hide();
             connectToWS();
+            $("#disconnect-dialog").on("close", function () {
+                connectToWS();
+            });
         })
     </script>
 </head>
 
 <body>
+    <dialog id="disconnect-dialog">
+        <h2>{% translate 'Disconnected' %}</h2>
+        <p>{% translate 'The connection to the server has been lost.' %}</p>
+        <form method="dialog">
+            <button class="btn" id="reconnect-btn">{% translate 'Reconnect' %}</button>
+        </form>
+    </dialog>
+
     <!-- 准备阶段 -->
     <div class="card" id="prepare-card">
         <h2 class="card-title"><i class="fas fa-hourglass-start"></i> 准备阶段</h2>
@@ -629,9 +745,9 @@
 
             </tbody>
         </table>
-
-        <p><button class="btn" id="next-step-btn">{% translate 'Lock Room' %}</button></p>
-        <p><button class="btn" id="close-room-btn">{% translate 'Close Room' %}</button></p>
+        <p><button class="btn show-preparing" id="ready-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'ready', data: {}}))">{% translate 'Ready' %}</button></p>
+        <p><button class="btn hide-preparing" id="next-step-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'next', data: {}}))">{% translate 'Lock Room' %}</button></p>
+        <p><button class="btn" id="close-room-btn-prepare" onclick="closeOrLeave()">{% translate 'Close Room' %}</button></p>
     </div>
 
     <!-- 游玩阶段 -->
@@ -639,7 +755,7 @@
         <h2 class="card-title"><i class="fas fa-bomb"></i> 数字炸弹</h2>
 
         <div class="room-info">
-            <p>房间名: <span id="room-name"></span></p>
+            <p>房间名: <span id="room-name"></span><button class="btn" id="close-room-btn-playing" onclick="closeOrLeave()">{% translate 'Leave Room' %}</button></p>
             <p>房主: <span id="owner"></span></p>
             <p>玩家列表：<span id="players"></span></p>
         </div>
@@ -670,10 +786,10 @@
 
         <div class="input-container">
             <label for="guess-input">输入你的猜测</label>
-            <input type="text" id="guess-input" placeholder="输入范围内的数字">
+            <input type="text" id="guess-input" placeholder="输入范围内的数字" onkeydown="if (event.keyCode == 13) {submitGuess()}">
         </div>
 
-        <button class="btn-full" id="guess-btn">
+        <button class="btn-full" id="guess-btn" onclick="submitGuess()">
             <i class="fas fa-paper-plane"></i> 提交答案
         </button>
     </div>
