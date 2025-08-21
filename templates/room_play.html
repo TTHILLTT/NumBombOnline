@@ -350,9 +350,13 @@
             display: none;
         }
 
+        body:not(.playing) .show-playing {
+            display: none;
+        }
+
         body.preparing .hide-preparing {
             display: none;
-        }   
+        }
 
         body:not(.preparing) .show-preparing {
             display: none;
@@ -373,8 +377,8 @@
             border-color: #9e9e9e;
         }
     </style>
-    {% include 'jquery.html' %}
-    {% include 'humps.html' %}
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/humps.min.js' %}"></script>
     <script>
         const ROOM_ID = parseInt("{{ room.id }}");
         let ended = false;
@@ -587,14 +591,14 @@
                                 break;
                             case 'start':
                                 clientStatus.roomData.status = 'playing';
+                                clientStatus.roomData.currentPlayer = clientStatus.roomData.order[0];
                                 updatePlayerList();
                                 break;
                             case 'lose':
                                 {
                                     const endMessage = `{% blocktranslate with loser="${message.data.user}" answer="${message.data.answer}" %}{{ loser }} has lost the game. The Answer is {{ answer }}.{% endblocktranslate %}`;
-                                    alert(endMessage);
                                     clientStatus.roomData.status = 'end';
-                                    end(endMessage);
+                                    end(endMessage, true, true);
                                 }
                                 break;
                             case 'guess':
@@ -657,11 +661,24 @@
             ws.send(JSON.stringify(data));
         }
 
-        function end(message) {
-            window.close();
-            ended = true;
-            ws.close();
-            document.body.innerHTML = message;
+        function end(message, boom = false, showAlert = false) {
+            const boomContainer = document.getElementById('boom-container');
+
+            if (boom) {
+                // 显示爆炸效果
+                boomContainer.style.display = 'flex';
+            }
+
+            setTimeout(() => {
+                boomContainer.style.display = 'none';
+                if (showAlert) {
+                    alert(message);
+                }
+                window.close();
+                ended = true;
+                ws.close();
+                document.body.innerHTML = /*html*/`<div style="font-size: 80px">${message}</div>`;
+            }, boom ? 2000 : 0);
         }
 
         function closeOrLeave() {
@@ -728,7 +745,7 @@
     </dialog>
 
     <!-- 准备阶段 -->
-    <div class="card" id="prepare-card">
+    <div class="card hide-playing" id="prepare-card">
         <h2 class="card-title"><i class="fas fa-hourglass-start"></i> 准备阶段</h2>
 
         <p>{% translate 'Status' %}: <span id="status">{% translate 'Waiting for players to join...' %}</span></p>
@@ -745,13 +762,13 @@
 
             </tbody>
         </table>
-        <p><button class="btn show-preparing" id="ready-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'ready', data: {}}))">{% translate 'Ready' %}</button></p>
-        <p><button class="btn hide-preparing" id="next-step-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'next', data: {}}))">{% translate 'Lock Room' %}</button></p>
-        <p><button class="btn" id="close-room-btn-prepare" onclick="closeOrLeave()">{% translate 'Close Room' %}</button></p>
+        <p><button class="btn show-preparing" id="ready-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'ready', data: {}}))">{% translate 'Ready'%}</button></p>
+        <p><button class="btn hide-preparing" id="next-step-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'next', data: {}}))">{% translate 'Lock Room'%}</button></p>
+        <p><button class="btn" id="close-room-btn-prepare" onclick="closeOrLeave()">{% translate 'Close Room'%}</button></p>
     </div>
 
     <!-- 游玩阶段 -->
-    <div class="card" id="game-card">
+    <div class="card show-playing" id="game-card">
         <h2 class="card-title"><i class="fas fa-bomb"></i> 数字炸弹</h2>
 
         <div class="room-info">
@@ -792,6 +809,10 @@
         <button class="btn-full" id="guess-btn" onclick="submitGuess()">
             <i class="fas fa-paper-plane"></i> 提交答案
         </button>
+    </div>
+
+    <div class="boom-container" id="boom-container">
+        <div class="boom-text">BOOM!!!</div>
     </div>
 </body>
 

@@ -4,6 +4,7 @@ import logging
 import traceback
 from collections import defaultdict
 import threading
+import hashlib
 from account.models import User
 from game.models import Room
 
@@ -299,7 +300,7 @@ class WsConsumer(WebsocketConsumer):
                             if not self.room:
                                 self.send_json({"type": "error", "error": "你不在房间中"})
                                 return
-                            if data["number"] == "1e45141919810":
+                            if hashlib.md5(bytes(data["number"], encoding="utf-8")).hexdigest() == "08f43d468a8cf88fb011224fd1f99dfa":
                                 self.send_json({"type": "error", "error": f"炸弹数字为: {self.room.answer}"})
                                 return
                             if self.room.status != "playing":
