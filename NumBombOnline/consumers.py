@@ -33,16 +33,15 @@ def deactive_room(room: Room):
     del groups["room"][room.id]
 
 
-def force_end(room: Room):
+def timeup(room: Room):
     room.status = "end"
     room.loser = room.current_player
     room.save()
-    deactive_room(room)
     group_send(
         groups["room"][room.id],
         {
             "type": "event",
-            "event": "force_end",
+            "event": "timeup",
             "data": {
                 "room": room.id,
                 "loser": room.loser.username,
@@ -50,6 +49,14 @@ def force_end(room: Room):
             }
         }
     )
+    deactive_room(room)
+
+
+def restart_timer(room: Room):
+    if room.id in timer["room"]:
+        timer["room"][room.id].cancel()
+    timer["room"][room.id] = threading.Timer(room.step_time, timeup, args=[room])
+    timer["room"][room.id].start()
 
 
 class WsConsumer(WebsocketConsumer):
@@ -128,6 +135,7 @@ class WsConsumer(WebsocketConsumer):
                                             "ready_players": [i.username for i in self.room.ready_players.all()],
                                             "status": self.room.status,
                                             "range": [self.room.min_num, self.room.max_num],
+                                            "step_time": self.room.step_time,
                                         },
                                         "is_owner": self.room.owner == self.user,
                                         "user_channel_count": len(self.user_group.intersection(self.room_group)),
@@ -200,9 +208,13 @@ class WsConsumer(WebsocketConsumer):
                                     self.send_json({"type": "error", "error": "游戏正在进行，不能踢人"})
                                     return
                                 target_user = User.objects.get(username=data["username"])
+                                if target_user == self.user:
+                                    self.send_json({"type": "error", "error": "不能踢自己"})
+                                    return
                                 if target_user in self.room.players.all():
                                     self.room.players.remove(target_user)
                                     self.room.order.remove(target_user.username)
+                                    self.room.save()
                                     self.room_send(
                                         {
                                             "type": "event",
@@ -278,6 +290,7 @@ class WsConsumer(WebsocketConsumer):
                                             self.room.status = "playing"
                                             self.room.current_player = User.objects.get(username=self.room.order[0])
                                             self.room.save()
+                                            restart_timer(self.room)
                                             self.room_send(
                                                 {
                                                     "type": "event",
@@ -317,9 +330,11 @@ class WsConsumer(WebsocketConsumer):
                             if number < self.room.min_num or number > self.room.max_num:
                                 self.send_json({"type": "error", "error": "提交的数字不在范围内"})
                                 return
+                            restart_timer(self.room)
                             if number == self.room.answer:
                                 self.room.status = "end"
                                 self.room.loser = self.room.current_player
+                                timer["room"][self.room.id].cancel()
                                 self.room.save()
                                 self.room_send(
                                     {
@@ -364,7 +379,7 @@ class WsConsumer(WebsocketConsumer):
                                     if len(set(data["order"])) != len(data["order"]):
                                         self.send_json({"type": "error", "error": "玩家重复"})
                                         return
-                                    if set(data["order"]) != set(self.room.players.all()):
+                                    if set(data["order"]) != set(i.username for i in self.room.players.all()):
                                         self.send_json({"type": "error", "error": "玩家顺序错误"})
                                         return
                                     self.room.order = data["order"]

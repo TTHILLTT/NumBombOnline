@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 23:03+0800\n"
+"POT-Creation-Date: 2025-08-21 18:35+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,6 +77,10 @@ msgstr "最大玩家数"
 #: .\game\forms.py:11
 msgid "Step time (seconds)"
 msgstr "步时（秒）"
+
+#: .\game\forms.py:18
+msgid "Minimum number should be less than or equal to maximum number."
+msgstr "最小数字应小于或等于最大数字。"
 
 #: .\game\models.py:10
 msgid "room name"
@@ -188,6 +192,15 @@ msgstr "zh_Hans"
 msgid "Welcome"
 msgstr "欢迎"
 
+#: .\templates\index.html:18 .\templates\profile.html:8
+#: .\templates\profile.html:14
+msgid "Profile"
+msgstr "个人简介"
+
+#: .\templates\index.html:19
+msgid "Logout"
+msgstr "登出"
+
 #: .\templates\index.html:21
 msgid "Room List"
 msgstr "房间列表"
@@ -209,25 +222,29 @@ msgstr "拥有者"
 msgid "Join"
 msgstr "加入"
 
-#: .\templates\index.html:29 .\templates\index.html:50
+#: .\templates\index.html:29 .\templates\index.html:52
 msgid "Spectate"
 msgstr "旁观"
 
 #: .\templates\index.html:47
+msgid "Continue"
+msgstr "继续"
+
+#: .\templates\index.html:49
 msgid "Locked"
 msgstr "锁定"
 
-#: .\templates\index.html:54
+#: .\templates\index.html:56
 msgid "No Rooms Available"
 msgstr "暂无房间"
 
-#: .\templates\login.html:8 .\templates\login.html:31 .\templates\login.html:37
+#: .\templates\login.html:8 .\templates\login.html:37
 msgid "Login"
 msgstr "登录"
 
-#: .\templates\profile.html:8 .\templates\profile.html:14
-msgid "Profile"
-msgstr "个人简介"
+#: .\templates\login.html:31
+msgid "Login To NumBombOnline"
+msgstr "登录到NumBombOnline"
 
 #: .\templates\profile.html:15
 #, python-format
@@ -262,62 +279,118 @@ msgstr "提交"
 msgid "Room Detail"
 msgstr "房间详情"
 
-#: .\templates\room_play.html:401 .\templates\room_play.html:453
-#: .\templates\room_play.html:498 .\templates\room_play.html:531
+#: .\templates\room_play.html:431 .\templates\room_play.html:499
+#: .\templates\room_play.html:554 .\templates\room_play.html:595
 msgid "Not Ready"
 msgstr "未准备"
 
-#: .\templates\room_play.html:403 .\templates\room_play.html:453
-#: .\templates\room_play.html:527
+#: .\templates\room_play.html:433 .\templates\room_play.html:499
+#: .\templates\room_play.html:591 .\templates\room_play.html:820
 msgid "Ready"
 msgstr "准备"
 
-#: .\templates\room_play.html:433 .\templates\room_play.html:634
+#: .\templates\room_play.html:446 .\templates\room_play.html:806
+msgid "Waiting for players to join..."
+msgstr "等待玩家加入..."
+
+#: .\templates\room_play.html:447
+msgid "Ordering players..."
+msgstr "排序玩家中…"
+
+#: .\templates\room_play.html:448
+msgid "Preparing game..."
+msgstr "准备游戏中..."
+
+#: .\templates\room_play.html:449
+msgid "Game in progress..."
+msgstr "游戏进行中..."
+
+#: .\templates\room_play.html:450
+msgid "Game ended"
+msgstr "游戏结束"
+
+#: .\templates\room_play.html:456 .\templates\room_play.html:821
+msgid "Lock Room"
+msgstr "锁定房间"
+
+#: .\templates\room_play.html:457
+msgid "Lock Order"
+msgstr "锁定顺序"
+
+#: .\templates\room_play.html:480 .\templates\room_play.html:822
 msgid "Close Room"
 msgstr "关闭房间"
 
-#: .\templates\room_play.html:436
+#: .\templates\room_play.html:482 .\templates\room_play.html:830
 msgid "Leave Room"
 msgstr "离开房间"
 
-#: .\templates\room_play.html:455 .\templates\room_play.html:500
+#: .\templates\room_play.html:501 .\templates\room_play.html:556
 msgid "Kick"
 msgstr "踢"
 
-#: .\templates\room_play.html:456 .\templates\room_play.html:501
+#: .\templates\room_play.html:502 .\templates\room_play.html:557
 msgid "Move Up"
 msgstr "上移"
 
-#: .\templates\room_play.html:457 .\templates\room_play.html:502
+#: .\templates\room_play.html:503 .\templates\room_play.html:558
 msgid "Move Down"
 msgstr "下移"
 
-#: .\templates\room_play.html:516
+#: .\templates\room_play.html:574 .\templates\room_play.html:575
+msgid "You have been kicked from the room."
+msgstr "你已被踢出房间。"
+
+#: .\templates\room_play.html:580
 msgid "Room has been Closed"
 msgstr "房间已关闭"
 
-#: .\templates\room_play.html:538
+#: .\templates\room_play.html:604
 #, python-format
 msgid "%(loser)s has lost the game. The Answer is %(answer)s."
 msgstr "%(loser)s 输了，答案是 %(answer)s。"
 
-#: .\templates\room_play.html:618
+#: .\templates\room_play.html:691
+msgid "Are you sure to close the room?"
+msgstr "确定要关闭房间吗？"
+
+#: .\templates\room_play.html:701
+msgid "The Game is in progress, are you sure to leave the room?"
+msgstr "游戏进行中，确定要离开房间吗？"
+
+#: .\templates\room_play.html:703 .\templates\room_play.html:711
+msgid "You have left the room."
+msgstr "你已离开房间。"
+
+#: .\templates\room_play.html:741
+msgid "You cannot kick yourself"
+msgstr "你不能踢自己"
+
+#: .\templates\room_play.html:744
+msgid "Are you sure to kick"
+msgstr "确定要踢人吗？"
+
+#: .\templates\room_play.html:795
+msgid "Disconnected"
+msgstr "连接中断"
+
+#: .\templates\room_play.html:796
+msgid "The connection to the server has been lost."
+msgstr "服务器连接已断开。"
+
+#: .\templates\room_play.html:798
+msgid "Reconnect"
+msgstr "重新连接"
+
+#: .\templates\room_play.html:806
 msgid "Status"
 msgstr "状态"
 
-#: .\templates\room_play.html:618
-msgid "Waiting for players to join..."
-msgstr "等待玩家加入..."
-
-#: .\templates\room_play.html:619
+#: .\templates\room_play.html:807
 msgid "Players"
 msgstr "玩家"
 
-#: .\templates\room_play.html:633
-msgid "Lock Room"
-msgstr "锁定房间"
-
-#: .\templates\room_play.html:668
+#: .\templates\room_play.html:856
 msgid "Time Left"
 msgstr "剩余时间"
 

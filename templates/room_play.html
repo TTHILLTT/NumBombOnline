@@ -388,6 +388,7 @@
             username: undefined,
             room: undefined,
             playerInfo: {},
+            lastStepTime: undefined,
             roomData: {
                 _name: undefined,
                 set name(value) {
@@ -455,7 +456,7 @@
                     const statusMapBtn = {
                         "joining": "{% translate 'Lock Room' %}",
                         "ordering": "{% translate 'Lock Order' %}",
-                    }
+                    };
 
                     $("#next-step-btn").text(statusMapBtn[value] || "");
                 },
@@ -471,6 +472,8 @@
                 get range() {
                     return this._range;
                 },
+
+                stepTime: undefined,
             },
             _isOwner: false,
             set isOwner(value) {
@@ -498,9 +501,9 @@
                         <td>${user}</td>
                         <td class="player-status">${clientStatus.roomData.readyPlayers.includes(user) ? "{% translate 'Ready' %}" : "{% translate 'Not Ready' %}"}</td>
                         <td class="owner-only">
-                            <button class="btn hide-playing">{% translate 'Kick' %}</button>
-                            <button class="btn show-ordering">{% translate 'Move Up' %}</button>
-                            <button class="btn show-ordering">{% translate 'Move Down' %}</button>
+                            <button class="btn hide-playing btn-kick">{% translate 'Kick' %}</button>
+                            <button class="btn show-ordering btn-move-up">{% translate 'Move Up' %}</button>
+                            <button class="btn show-ordering btn-move-down">{% translate 'Move Down' %}</button>
                         </td>
                     </tr>`
                 );
@@ -553,9 +556,9 @@
                                         <td>${message.data.user}</td>
                                         <td class="player-status">{% translate 'Not Ready' %}</td>
                                         <td class="owner-only">
-                                            <button class="btn hide-playing">{% translate 'Kick' %}</button>
-                                            <button class="btn show-ordering">{% translate 'Move Up' %}</button>
-                                            <button class="btn show-ordering">{% translate 'Move Down' %}</button>
+                                            <button class="btn hide-playing btn-kick">{% translate 'Kick' %}</button>
+                                            <button class="btn show-ordering btn-move-up">{% translate 'Move Up' %}</button>
+                                            <button class="btn show-ordering btn-move-down">{% translate 'Move Down' %}</button>
                                         </td>
                                     </tr>`
                                 );
@@ -568,8 +571,13 @@
                                 $(`[data-username="${message.data.user}"]`).remove();
                                 break;
                             case 'kick':
-                                clientStatus.roomData.order.splice(clientStatus.roomData.order.indexOf(message.data.user), 1);
-                                $(`[data-username="${message.data.user}"]`).remove();
+                                clientStatus.roomData.order.splice(clientStatus.roomData.order.indexOf(message.data.target), 1);
+                                $(`[data-username="${message.data.target}"]`).remove();
+                                if (clientStatus.username === message.data.target) {
+                                    alert("{% translate 'You have been kicked from the room.' %}");
+                                    end("{% translate 'You have been kicked from the room.' %}");
+                                }
+                                break;
                             case 'deactive':
                                 {
                                     const endMessage = "{% translate 'Room has been Closed' %}";
@@ -592,6 +600,7 @@
                             case 'start':
                                 clientStatus.roomData.status = 'playing';
                                 clientStatus.roomData.currentPlayer = clientStatus.roomData.order[0];
+                                clientStatus.lastStepTime = new Date().getTime();
                                 updatePlayerList();
                                 break;
                             case 'lose':
@@ -604,10 +613,17 @@
                             case 'guess':
                                 clientStatus.roomData.range = message.data.newRange;
                                 clientStatus.roomData.currentPlayer = message.data.currentPlayer;
+                                clientStatus.lastStepTime = new Date().getTime();
                                 break;
                             case 'order':
                                 clientStatus.roomData.order = message.data.order;
                                 break;
+                            case 'timeup':
+                                {
+                                    const endMessage = `{% blocktranslate with loser="${message.data.loser}" answer="${message.data.answer}" %}{{ loser }} has lost the game because time is up. The Answer is {{ answer }}.{% endblocktranslate %}`;
+                                    clientStatus.roomData.status = 'end';
+                                    end(endMessage, undefined, true);
+                                }
                         }
                         break;
                     case 'status':
@@ -623,6 +639,7 @@
                                     clientStatus.roomData.readyPlayers = message.data.roomData.readyPlayers;
                                     clientStatus.roomData.status = message.data.roomData.status;
                                     clientStatus.roomData.range = message.data.roomData.range;
+                                    clientStatus.roomData.stepTime = message.data.roomData.stepTime;
                                     clientStatus.isOwner = message.data.isOwner;
                                     break;
                             }
@@ -669,14 +686,14 @@
                 boomContainer.style.display = 'flex';
             }
 
+            ended = true;
+            ws.close();
             setTimeout(() => {
                 boomContainer.style.display = 'none';
                 if (showAlert) {
                     alert(message);
                 }
                 window.close();
-                ended = true;
-                ws.close();
                 document.body.innerHTML = /*html*/`<div style="font-size: 80px">${message}</div>`;
             }, boom ? 2000 : 0);
         }
@@ -726,10 +743,67 @@
         }
 
         $(function () {
-            $(".owner-only").hide();
             connectToWS();
             $("#disconnect-dialog").on("close", function () {
                 connectToWS();
+            });
+            $('body').on('click', '.btn-kick', function (e) {
+                const user = $(e.target).closest('tr').data('username');
+                if (user === clientStatus.username) {
+                    alert("{% translate 'You cannot kick yourself' %}");
+                    return;
+                }
+                ans = confirm(`{% translate 'Are you sure to kick' %} ${user}?`);
+                if (ans) {
+                    sendData({
+                        type: 'action',
+                        action: 'kick',
+                        data: {
+                            username: user,
+                        }
+                    });
+                }
+            }).on('click', '.btn-move-up', function (e) {
+                const user = $(e.target).closest('tr').data('username');
+                const index = clientStatus.roomData.order.indexOf(user);
+                if (index === 0) {
+                    return;
+                }
+                const target = clientStatus.roomData.order[index - 1];
+                clientStatus.roomData.order[index - 1] = user;
+                clientStatus.roomData.order[index] = target;
+                updatePlayerList();
+                sendData({
+                    type: 'action',
+                    action: 'order',
+                    data: {
+                        order: clientStatus.roomData.order,
+                    }
+                });
+            }).on('click', '.btn-move-down', function (e) {
+                const user = $(e.target).closest('tr').data('username');
+                const index = clientStatus.roomData.order.indexOf(user);
+                if (index === clientStatus.roomData.order.length - 1) {
+                    return;
+                }
+                const target = clientStatus.roomData.order[index + 1];
+                clientStatus.roomData.order[index + 1] = user;
+                clientStatus.roomData.order[index] = target;
+                updatePlayerList();
+                sendData({
+                    type: 'action',
+                    action: 'order',
+                    data: {
+                        order: clientStatus.roomData.order,
+                    }
+                });
+            });
+
+            setInterval(function () {
+                if (clientStatus.roomData.status === 'playing' && clientStatus.roomData.stepTime && clientStatus.lastStepTime) {
+                    const timeLeft = Math.max(0, Math.floor(clientStatus.roomData.stepTime - (new Date().getTime() - clientStatus.lastStepTime) / 1000));
+                    $("#time-left").text(timeLeft);
+                }
             });
         })
     </script>
@@ -763,7 +837,7 @@
             </tbody>
         </table>
         <p><button class="btn show-preparing" id="ready-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'ready', data: {}}))">{% translate 'Ready'%}</button></p>
-        <p><button class="btn hide-preparing" id="next-step-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'next', data: {}}))">{% translate 'Lock Room'%}</button></p>
+        <p><button class="btn hide-preparing owner-only" id="next-step-btn" onclick="ws.send(JSON.stringify({type: 'action', action: 'next', data: {}}))">{% translate 'Lock Room'%}</button></p>
         <p><button class="btn" id="close-room-btn-prepare" onclick="closeOrLeave()">{% translate 'Close Room'%}</button></p>
     </div>
 
@@ -798,7 +872,7 @@
         </div>
 
         <div>
-            <p>{% translate 'Time Left' %}: <span id="time-left">10</span>s</p>
+            <p>{% translate 'Time Left' %}: <span id="time-left">--</span>s</p>
         </div>
 
         <div class="input-container">

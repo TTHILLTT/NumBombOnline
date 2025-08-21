@@ -15,11 +15,11 @@
         {% if user.is_authenticated %}
         <p>
             {% translate "Welcome" %}, {{ user.username }}!
-            <p><a class="btn" href="{% url 'profile' %}">Profile</a></p>
-            <p><a class="btn" href="{% url 'logout' %}">Logout</a></p>
+            <p><a class="btn" href="{% url 'profile' %}">{% translate "Profile" %}</a></p>
+            <p><a class="btn" href="{% url 'logout' %}">{% translate "Logout" %}</a></p>
         </p>
         <h2>{% translate "Room List" %}</h2>
-        <p><a class="btn" href="{% url 'room_create' %}">{% translate "Create a Room" %}</a></p>
+        <p><a class="btn" href="{% url 'room_create' %}" target="_blank">{% translate "Create a Room" %}</a></p>
         <table>
             <thead>
                 <tr>
