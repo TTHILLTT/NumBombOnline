@@ -117,6 +117,9 @@ class WsConsumer(WebsocketConsumer):
                             if not self.user in self.room.players.all() and self.room.status != "joining":
                                 self.send_json({"type": "error", "error": "房间已锁定，不能加入", "fatal": True})
                                 return
+                            if not self.user in self.room.players.all() and len(self.room.players.all()) >= self.room.max_player:
+                                self.send_json({"type": "error", "error": "房间已满，不能加入", "fatal": True})
+                                return
                             groups["room"][self.room.id].add(self)
                             self.room_group = groups["room"][self.room.id]
                             self.send_json(

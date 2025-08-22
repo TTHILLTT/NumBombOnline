@@ -9,7 +9,7 @@
     {% include 'style.html' %}
     <style>
         input {
-            width: 100%;
+            width: -webkit-fill-available;
             height: 50px;
             background: rgba(255, 255, 255, 0.5);
         }
@@ -28,7 +28,7 @@
 
 <body>
     <div class="middle" style="text-align: center;">
-        <p style="font-size: 80px;">{% translate 'Login To NumBombOnline' %}</p>
+        <p style="font-size: 80px; margin-top: 0;">{% translate 'Login To NumBombOnline' %}</p>
         <form style="text-align: center;" method="post">
             <table style="width: 100%;">
                 {% csrf_token %}

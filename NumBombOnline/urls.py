@@ -31,6 +31,7 @@ urlpatterns = [
     path('profile/', account.views.profile, name='profile'),
     path('accounts/profile/', lambda request: redirect('profile')),
     path('profile/<str:username>/', account.views.profile, name='profile_username'),
+    path('change-bio/', account.views.change_bio, name='change_bio'),
     path('room/create/', game.views.room_create, name='room_create'),
     path('room/detail/<int:room_id>/', game.views.room_detail, name='room_detail'),
     path('room/spectate/<int:room_id>/', game.views.room_spectate, name='room_spectate'),

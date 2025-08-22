@@ -15,6 +15,9 @@
         <p>{% blocktranslate with username=user.username %}Welcome To {{ username }}'s Profile!{% endblocktranslate %}</p>
         <p>{% translate "Email" %}: {{ user.email }}</p>
         <h2>{% translate "Bio" %}</h2>
+        {% if user == request.user %}
+        <a href="{% url 'change_bio' %}">{% translate "Change bio" %}</a>
+        {% endif %}
         {% if user.bio == "" %}
         <p>{% translate "This user has not written a bio yet." %}</p>
         {% else %}

@@ -1,0 +1,30 @@
+{% load i18n %}
+
+
+<html lang="{% translate 'lang' %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'Change bio' %}</title>
+    {% include 'style.html' %}
+    <style>
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="middle">
+        <h1>{% translate 'Change bio' %}</h1>
+        <form method="POST" action="{% url 'change_bio' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">{% translate 'Change' %}</button>
+        </form>
+    </div>
+</body>
+
+</html>

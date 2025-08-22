@@ -19,3 +19,9 @@ class UserCreationForm(BaseUserCreationForm):
     class Meta(BaseUserCreationForm.Meta):
         model = User
         fields = ('username', 'email')
+
+
+class UserChangeBioForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('bio',)
