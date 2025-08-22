@@ -36,5 +36,6 @@ urlpatterns = [
     path('room/detail/<int:room_id>/', game.views.room_detail, name='room_detail'),
     path('room/spectate/<int:room_id>/', game.views.room_spectate, name='room_spectate'),
     path('room/play/<int:room_id>/', game.views.room_play, name='room_play'),
-    path('ws-echo-test/', game.views.ws_echo_test, name='ws_echo_test')
+    path('ws-echo-test/', game.views.ws_echo_test, name='ws_echo_test'),
+    path('about/', game.views.about, name='about')
 ]

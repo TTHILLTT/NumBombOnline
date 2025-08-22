@@ -44,3 +44,6 @@ def room_play(request, room_id):
 
 def ws_echo_test(request):
     return render(request, 'ws_echo_test.html')
+
+def about(request):
+    return render(request, 'about.html')

@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'About' %}</title>
+    {% include 'style.html' %}
+</head>
+<body>
+    <div class="middle">
+        <h1>{% translate 'About NumBombOnline' %}</h1>
+        <p>{% translate 'NumBombOnline is an online version of the classic number guessing game, where players can create rooms, join games, and compete against each other.' %}</p>
+        <h2>{% translate  'Contributors' %}</h2>
+        <ul>
+            <li>myworldzycpc</li>
+            <li>TTHILLTT</li>
+        </ul>
+        <p>{% translate 'This project is maintained by a community of developers. Contributions are welcome!' %}</p>
+        <h2>{% translate 'Features' %}</h2>
+        <ul>
+            <li>{% translate 'Create and join rooms' %}</li>
+            <li>{% translate 'Real-time multiplayer gameplay' %}</li>
+            <li>{% translate 'User profiles and statistics' %}</li>
+            <li>{% translate 'Responsive design for all devices' %}</li>
+        </ul>
+    </div>
+</body>
+</html>

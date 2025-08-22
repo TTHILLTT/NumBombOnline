@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-22 12:15+0800\n"
+"POT-Creation-Date: 2025-08-22 15:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,6 +187,52 @@ msgstr ""
 
 #: .\game\models.py:47
 msgid "rooms"
+msgstr ""
+
+#: .\templates\about.html:7
+msgid "About"
+msgstr ""
+
+#: .\templates\about.html:12
+msgid "About NumBombOnline"
+msgstr ""
+
+#: .\templates\about.html:13
+msgid ""
+"NumBombOnline is an online version of the classic number guessing game, "
+"where players can create rooms, join games, and compete against each other."
+msgstr ""
+
+#: .\templates\about.html:14 .\templates\about.html:26
+msgid "Contributors"
+msgstr ""
+
+#: .\templates\about.html:19
+msgid "Features"
+msgstr ""
+
+#: .\templates\about.html:21
+#, fuzzy
+#| msgid "Create a Room"
+msgid "Create and join rooms"
+msgstr "Create a Room"
+
+#: .\templates\about.html:22
+msgid "Real-time multiplayer gameplay"
+msgstr ""
+
+#: .\templates\about.html:23
+msgid "User profiles and statistics"
+msgstr ""
+
+#: .\templates\about.html:24
+msgid "Responsive design for all devices"
+msgstr ""
+
+#: .\templates\about.html:27
+msgid ""
+"This project is maintained by a community of developers. Contributions are "
+"welcome!"
 msgstr ""
 
 #: .\templates\change_bio.html:4 .\templates\index.html:3

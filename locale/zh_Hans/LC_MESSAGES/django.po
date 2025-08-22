@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-22 12:15+0800\n"
+"POT-Creation-Date: 2025-08-22 15:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,6 +181,52 @@ msgstr "房间"
 #: .\game\models.py:47
 msgid "rooms"
 msgstr "房间"
+
+#: .\templates\about.html:7
+msgid "About"
+msgstr "关于"
+
+#: .\templates\about.html:12
+msgid "About NumBombOnline"
+msgstr "关于 NumBombOnline"
+
+#: .\templates\about.html:13
+msgid ""
+"NumBombOnline is an online version of the classic number guessing game, "
+"where players can create rooms, join games, and compete against each other."
+msgstr ""
+"NumBombOnline 是经典数字猜谜游戏的在线版本，玩家可以创建房间、加入游戏并相互"
+"竞争。"
+
+#: .\templates\about.html:14 .\templates\about.html:26
+msgid "Contributors"
+msgstr "贡献者"
+
+#: .\templates\about.html:19
+msgid "Features"
+msgstr "特性"
+
+#: .\templates\about.html:21
+msgid "Create and join rooms"
+msgstr "创建然后加入房间"
+
+#: .\templates\about.html:22
+msgid "Real-time multiplayer gameplay"
+msgstr "实时的多人游戏"
+
+#: .\templates\about.html:23
+msgid "User profiles and statistics"
+msgstr "用户资料和状态"
+
+#: .\templates\about.html:24
+msgid "Responsive design for all devices"
+msgstr "针对所有设备的响应式设计"
+
+#: .\templates\about.html:27
+msgid ""
+"This project is maintained by a community of developers. Contributions are "
+"welcome!"
+msgstr "这个项目由开发者社区维护。欢迎贡献！"
 
 #: .\templates\change_bio.html:4 .\templates\index.html:3
 #: .\templates\login.html:4 .\templates\profile.html:3
@@ -383,7 +429,8 @@ msgstr "%(loser)s 输了，答案是 %(answer)s。"
 
 #: .\templates\room_play.html:623
 #, python-format
-msgid "%(loser)s has lost the game because time is up. The Answer is %(answer)s."
+msgid ""
+"%(loser)s has lost the game because time is up. The Answer is %(answer)s."
 msgstr "因为时间已到，%(loser)s 输了，答案是 %(answer)s。"
 
 #: .\templates\room_play.html:703
