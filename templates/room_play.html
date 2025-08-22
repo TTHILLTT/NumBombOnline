@@ -753,7 +753,7 @@
                     alert("{% translate 'You cannot kick yourself' %}");
                     return;
                 }
-                ans = confirm(`{% translate 'Are you sure to kick' %} ${user}?`);
+                ans = confirm(`{% blocktranslate with user="${user}" %}Are you sure to kick ${user}?{% endblocktranslate %}`);
                 if (ans) {
                     sendData({
                         type: 'action',
@@ -846,7 +846,7 @@
         <h2 class="card-title"><i class="fas fa-bomb"></i> 数字炸弹</h2>
 
         <div class="room-info">
-            <p>房间名: <span id="room-name"></span><button class="btn" id="close-room-btn-playing" onclick="closeOrLeave()">{% translate 'Leave Room' %}</button></p>
+            <p>房间名: <span id="room-name"></span><button class="btn owner-only" id="close-room-btn-playing" onclick="closeOrLeave()">{% translate 'Close Room' %}</button></p>
             <p>房主: <span id="owner"></span></p>
             <p>玩家列表：<span id="players"></span></p>
         </div>

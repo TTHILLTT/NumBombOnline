@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 18:35+0800\n"
+"POT-Creation-Date: 2025-08-22 12:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,11 +189,21 @@ msgstr ""
 msgid "rooms"
 msgstr ""
 
-#: .\templates\index.html:3 .\templates\login.html:4 .\templates\profile.html:3
+#: .\templates\change_bio.html:4 .\templates\index.html:3
+#: .\templates\login.html:4 .\templates\profile.html:3
 #: .\templates\register.html:3 .\templates\room_create.html:3
 #: .\templates\room_detail.html:3 .\templates\room_play.html:4
 msgid "lang"
 msgstr "en_US"
+
+#: .\templates\change_bio.html:9 .\templates\change_bio.html:21
+#: .\templates\profile.html:19
+msgid "Change bio"
+msgstr ""
+
+#: .\templates\change_bio.html:25
+msgid "Change"
+msgstr ""
 
 #: .\templates\index.html:17
 msgid "Welcome"
@@ -221,7 +231,7 @@ msgstr "Create a Room"
 msgid "Name"
 msgstr ""
 
-#: .\templates\index.html:27
+#: .\templates\index.html:27 .\templates\room_detail.html:15
 msgid "Owner"
 msgstr ""
 
@@ -267,7 +277,7 @@ msgstr "Email"
 msgid "Bio"
 msgstr "Bio"
 
-#: .\templates\profile.html:19
+#: .\templates\profile.html:22
 msgid "This user has not written a bio yet."
 msgstr ""
 
@@ -289,124 +299,146 @@ msgstr ""
 msgid "Room Detail"
 msgstr "Room List"
 
-#: .\templates\room_play.html:431 .\templates\room_play.html:499
-#: .\templates\room_play.html:554 .\templates\room_play.html:595
-msgid "Not Ready"
-msgstr ""
-
-#: .\templates\room_play.html:433 .\templates\room_play.html:499
-#: .\templates\room_play.html:591 .\templates\room_play.html:820
-msgid "Ready"
-msgstr ""
-
-#: .\templates\room_play.html:446 .\templates\room_play.html:806
-msgid "Waiting for players to join..."
-msgstr ""
-
-#: .\templates\room_play.html:447
-msgid "Ordering players..."
-msgstr ""
-
-#: .\templates\room_play.html:448
-msgid "Preparing game..."
-msgstr ""
-
-#: .\templates\room_play.html:449
-msgid "Game in progress..."
-msgstr ""
-
-#: .\templates\room_play.html:450
-msgid "Game ended..."
-msgstr ""
-
-#: .\templates\room_play.html:456 .\templates\room_play.html:821
-msgid "Lock Room"
-msgstr ""
-
-#: .\templates\room_play.html:457
-msgid "Lock Order"
-msgstr ""
-
-#: .\templates\room_play.html:480 .\templates\room_play.html:822
+#: .\templates\room_detail.html:16
 #, fuzzy
 #| msgid "Create a Room"
-msgid "Close Room"
+msgid "Created At"
 msgstr "Create a Room"
 
-#: .\templates\room_play.html:482 .\templates\room_play.html:830
-#, fuzzy
-#| msgid "Create a Room"
-msgid "Leave Room"
-msgstr "Create a Room"
-
-#: .\templates\room_play.html:501 .\templates\room_play.html:556
-msgid "Kick"
-msgstr ""
-
-#: .\templates\room_play.html:502 .\templates\room_play.html:557
-msgid "Move Up"
-msgstr ""
-
-#: .\templates\room_play.html:503 .\templates\room_play.html:558
-msgid "Move Down"
-msgstr ""
-
-#: .\templates\room_play.html:574 .\templates\room_play.html:575
-msgid "You have been kicked from the room."
-msgstr ""
-
-#: .\templates\room_play.html:580
-msgid "Room has been Closed"
-msgstr ""
-
-#: .\templates\room_play.html:604
-#, python-format
-msgid "%(loser)s has lost the game. The Answer is %(answer)s."
-msgstr ""
-
-#: .\templates\room_play.html:691
-msgid "Are you sure to close the room?"
-msgstr ""
-
-#: .\templates\room_play.html:701
-msgid "The Game is in progress, are you sure to leave the room?"
-msgstr ""
-
-#: .\templates\room_play.html:703 .\templates\room_play.html:711
-msgid "You have left the room."
-msgstr ""
-
-#: .\templates\room_play.html:741
-msgid "You cannot kick yourself"
-msgstr ""
-
-#: .\templates\room_play.html:744
-msgid "Are you sure to kick"
-msgstr ""
-
-#: .\templates\room_play.html:795
-msgid "Disconnected"
-msgstr ""
-
-#: .\templates\room_play.html:796
-msgid "The connection to the server has been lost."
-msgstr ""
-
-#: .\templates\room_play.html:798
-msgid "Reconnect"
-msgstr ""
-
-#: .\templates\room_play.html:806
+#: .\templates\room_detail.html:17 .\templates\room_play.html:825
 #, fuzzy
 #| msgid "Room List"
 msgid "Status"
 msgstr "Room List"
 
-#: .\templates\room_play.html:807
+#: .\templates\room_detail.html:18
+msgid "Current Range"
+msgstr ""
+
+#: .\templates\room_detail.html:20 .\templates\room_play.html:826
 msgid "Players"
 msgstr ""
 
-#: .\templates\room_play.html:856
+#: .\templates\room_detail.html:24
+msgid "No players yet"
+msgstr ""
+
+#: .\templates\room_play.html:432 .\templates\room_play.html:502
+#: .\templates\room_play.html:557 .\templates\room_play.html:598
+msgid "Not Ready"
+msgstr ""
+
+#: .\templates\room_play.html:434 .\templates\room_play.html:502
+#: .\templates\room_play.html:594 .\templates\room_play.html:839
+msgid "Ready"
+msgstr ""
+
+#: .\templates\room_play.html:447 .\templates\room_play.html:825
+msgid "Waiting for players to join..."
+msgstr ""
+
+#: .\templates\room_play.html:448
+msgid "Ordering players..."
+msgstr ""
+
+#: .\templates\room_play.html:449
+msgid "Preparing game..."
+msgstr ""
+
+#: .\templates\room_play.html:450
+msgid "Game in progress..."
+msgstr ""
+
+#: .\templates\room_play.html:451
+msgid "Game ended..."
+msgstr ""
+
+#: .\templates\room_play.html:457 .\templates\room_play.html:840
+msgid "Lock Room"
+msgstr ""
+
+#: .\templates\room_play.html:458
+msgid "Lock Order"
+msgstr ""
+
+#: .\templates\room_play.html:483 .\templates\room_play.html:841
+#: .\templates\room_play.html:849
+#, fuzzy
+#| msgid "Create a Room"
+msgid "Close Room"
+msgstr "Create a Room"
+
+#: .\templates\room_play.html:485
+#, fuzzy
+#| msgid "Create a Room"
+msgid "Leave Room"
+msgstr "Create a Room"
+
+#: .\templates\room_play.html:504 .\templates\room_play.html:559
+msgid "Kick"
+msgstr ""
+
+#: .\templates\room_play.html:505 .\templates\room_play.html:560
+msgid "Move Up"
+msgstr ""
+
+#: .\templates\room_play.html:506 .\templates\room_play.html:561
+msgid "Move Down"
+msgstr ""
+
+#: .\templates\room_play.html:577 .\templates\room_play.html:578
+msgid "You have been kicked from the room."
+msgstr ""
+
+#: .\templates\room_play.html:583
+msgid "Room has been Closed"
+msgstr ""
+
+#: .\templates\room_play.html:608
+#, python-format
+msgid "%(loser)s has lost the game. The Answer is %(answer)s."
+msgstr ""
+
+#: .\templates\room_play.html:623
+#, python-format
+msgid ""
+"%(loser)s has lost the game because time is up. The Answer is %(answer)s."
+msgstr ""
+
+#: .\templates\room_play.html:703
+msgid "Are you sure to close the room?"
+msgstr ""
+
+#: .\templates\room_play.html:713
+msgid "The Game is in progress, are you sure to leave the room?"
+msgstr ""
+
+#: .\templates\room_play.html:715 .\templates\room_play.html:723
+msgid "You have left the room."
+msgstr ""
+
+#: .\templates\room_play.html:753
+msgid "You cannot kick yourself"
+msgstr ""
+
+#: .\templates\room_play.html:756
+#, python-brace-format
+msgid "Are you sure to kick ${user}?"
+msgstr ""
+
+#: .\templates\room_play.html:814
+msgid "Disconnected"
+msgstr ""
+
+#: .\templates\room_play.html:815
+msgid "The connection to the server has been lost."
+msgstr ""
+
+#: .\templates\room_play.html:817
+msgid "Reconnect"
+msgstr ""
+
+#: .\templates\room_play.html:875
 msgid "Time Left"
 msgstr ""
 

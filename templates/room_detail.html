@@ -10,8 +10,21 @@
 </head>
 
 <body>
-    <h1>{{ room.name }} (#{{ room.id }})</h1>
-    <p>{{ room.owner.username }} ({{ room.owner.email }})</p>
+    <div class="middle">
+        <h1>{{ room.name }} (#{{ room.id }})</h1>
+        <p>{% translate 'Owner' %}: <a href="{% url 'profile_username' room.owner.username %}">{{ room.owner.username }}</a></p>
+        <p>{% translate 'Created At' %}: {{ room.created_at }}</p>
+        <p>{% translate 'Status' %}: {{ room.get_status_display }}</p>
+        <p>{% translate 'Current Range' %}: {{ room.min_num }} ~ {{ room.max_num }}</p>
+        <p>
+            {% translate 'Players' %}:
+            {% for player in room.players.all %}
+            <a href="{% url 'profile_username' player.username %}">{{ player.username }}</a>
+            {% empty %}
+            {% translate 'No players yet' %}
+            {% endfor %}
+        </p>
+    </div>
 </body>
 
 </html>
